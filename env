@@ -1,26 +1,38 @@
 #--------------------------------------------------------------------
-# Example Environment Configuration file
-#
-# This file can be used as a starting point for your own
-# custom .env files, and contains most of the possible settings
-# available in a default install.
-#
-# By default, all of the settings are commented out. If you want
-# to override the setting, you must un-comment it by removing the '#'
-# at the beginning of the line.
+#   Peringatan:
+#   Anda perlu untuk me-restart server jika anda mengubah settingan 
+#   dari file ENV ini
+#   
+#   CodeIgniter 4 - Project Kerja Praktek:
+#       Dinas Pertanian Tanaman Pangan Hortikultura dan Perkebunan 
+#       Kabupaten Bangkalan
 #--------------------------------------------------------------------
 
 #--------------------------------------------------------------------
 # ENVIRONMENT
 #--------------------------------------------------------------------
 
-# CI_ENVIRONMENT = production
+# ubah menjadi 'production' jika project CodeIgniter 4 ini akan 
+#  di-deploy ke server, agar error yang dihasilkan tidak ditampilkan
+#  ke pengguna
+
+# ubah menjadi 'development' jika project CodeIgniter 4 ini 
+#  sedang masa coding atau testing
+
+CI_ENVIRONMENT = development
 
 #--------------------------------------------------------------------
 # APP
 #--------------------------------------------------------------------
 
-# app.baseURL = ''
+# Jika sudah dideploy ke server, harap ubah app.baseURL ke domain website anda.
+#  untuk development, gunakan 'http://localhost:8080'.
+#  Jalankan menggunakan command prompt 'php spark serve'
+#  harap mengaktifkan ekstensi 'intl' dan versi PHP adalah 7.2 keatas 
+#  *** (Requirement dari CodeIgniter 4) ***
+#  ekstensi 'intl' bisa anda lihat di konfigurasi php anda
+
+app.baseURL = 'http://localhost:8080/'
 # app.forceGlobalSecureRequests = false
 
 # app.sessionDriver = 'CodeIgniter\Session\Handlers\FileHandler'
@@ -49,11 +61,15 @@
 # DATABASE
 #--------------------------------------------------------------------
 
-# database.default.hostname = localhost
-# database.default.database = ci4
-# database.default.username = root
-# database.default.password = root
-# database.default.DBDriver = MySQLi
+# pengubahan database, biasanya tidak ada yang berubah, kecuali jika
+#  menggunakan database dengan nama berbeda, atau databasenya diberi
+#  password
+
+database.default.hostname = localhost
+database.default.database = dispertapahorbun
+database.default.username = root
+database.default.password = 
+database.default.DBDriver = MySQLi
 
 # database.tests.hostname = localhost
 # database.tests.database = ci4
@@ -91,3 +107,10 @@
 #  honeypot.label = 'Fill This Field'
 #  honeypot.name = 'honeypot'
 #  honeypot.template = '<label>{label}</label><input type="text" name="{name}" value=""/>'
+
+#--------------------------------------------------------------------
+# OTHER SETTINGS - Feature
+#--------------------------------------------------------------------
+
+# Enable Comment - set true jika ingin mengaktifkan fitur komentar, berlaku sebaliknya
+enableComment = false
