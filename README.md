@@ -1,4 +1,4 @@
-# CodeIgniter 4 Application Starter
+# CodeIgniter 4 Project - Dispertapahorbun
 
 ## What is CodeIgniter?
 
@@ -16,17 +16,25 @@ The user guide corresponding to this version of the framework can be found
 
 ## Installation & updates
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+Clone git project ini menggunakan git bawaan masing masing ke folder **htdocs** untuk yang menggunakan xampp, atau memakai github desktop,
+Project CodeIgniter 4 ini menggunakan Server Requirement yang tercantum di bawah readme doc ini
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+Setelah di clone, silahkan buka Command Prompt atau Visual Studio Code dan buka terminal, jalankan
+`composer update` untuk mendapatkan file vendor codeigniter 4 serta librarynya, biasanya membutuhkan waktu
 
 ## Setup
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+File `.env` bisa diambil dari mengcopy file `env`
+Jangan lupa untuk rename dan tambahkan titik didepannya
+
+Project ini belum pakai migration, jadi silahkan impor sql ke database `dispertapahorbun` atau sesuaikan dengan isi `.env` nya.
+Sedangkan seed, anda bisa pakai menggunakan `php spark db:seed AdminSeeder`. 
+Isi seeder bisa dilihat di `App\Database\Seeds\AdminSeeder.php`.
+
+## Jalanin Local Dev Server
+
+Silahkan buka command prompt pada project ini, dan jalankan
+`php spark serve`, default lokasi ada di `http://localhost:8080`
 
 ## Important Change with index.php
 
@@ -52,6 +60,8 @@ Problems with it can be raised on our forum, or as issues in the main repository
 ## Server Requirements
 
 PHP version 7.2 or higher is required, with the following extensions installed: 
+Lokasi (`Xampp\php\php.ini`), anda akan menemukan `extension=(nama ekstension)`
+*tips*: Untuk aktifkan, hilangkan `;` pada depan kata extension
 
 - [intl](http://php.net/manual/en/intl.requirements.php)
 - [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
