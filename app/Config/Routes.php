@@ -62,6 +62,9 @@ $routes->group('admin', function ($routes) {
 		$routes->post('edit', 'AdminController::kategoriEditProcess', ['as' => 'admin.kategori.edit.process']);
 		$routes->post('delete', 'AdminController::kategoriDeleteProcess', ['as' => 'admin.kategori.delete.process']);
 	});
+	$routes->group('user', function ($routes) {
+		$routes->post('changepass', 'UserController::changePassword', ['as' => 'admin.changepass']);
+	});
 });
 
 /**
