@@ -63,7 +63,9 @@ $routes->group('admin', function ($routes) {
 		$routes->post('delete', 'AdminController::kategoriDeleteProcess', ['as' => 'admin.kategori.delete.process']);
 	});
 	$routes->group('user', function ($routes) {
-		$routes->post('changepass', 'UserController::changePassword', ['as' => 'admin.changepass']);
+		$routes->post('changepass', 'UserController::changePassword', ['as' => 'admin.user.changepass']);
+		$routes->get('/', 'UserController::manageUser', ['as' => 'admin.user.manage']);
+		$routes->post('create', 'UserController::createUser', ['as' => 'admin.user.create']);
 	});
 });
 
