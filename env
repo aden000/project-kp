@@ -114,3 +114,6 @@ database.default.DBDriver = MySQLi
 
 # Enable Comment - set true jika ingin mengaktifkan fitur komentar, berlaku sebaliknya
 enableComment = false
+
+# Is Maintenance - Berguna ketika website yang dikelola sedang ada perbaikan/penambahan fitur
+isMaintenance = false
