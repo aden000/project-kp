@@ -34,7 +34,7 @@ class AdminController extends BaseController
             $result = $hasil->where('username', $user)
                 // ->where('password', $pass)
                 ->first();
-            if ($result != null && password_verify($pass, $result['password'])) {
+            if ($result != null && $result['username'] == $user && password_verify($pass, $result['password'])) {
                 $session = session();
                 $session->set('whoLoggedIn', $result['id_user']);
                 $session->markAsTempdata('whoLoggedIn', 7200);

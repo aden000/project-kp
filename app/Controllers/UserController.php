@@ -11,6 +11,13 @@ class UserController extends BaseController
         return session()->get('whoLoggedIn') ? true : false;
     }
 
+    private function isFullAccess()
+    {
+        $model = new UserModel();
+        $model = $model->select('role')->where('id_user', session()->get('whoLoggedIn'))->first();
+        return $model['role'] == 0 ? true : false;
+    }
+
     public function changePassword()
     {
         if ($this->isLoggedIn()) {
@@ -53,10 +60,9 @@ class UserController extends BaseController
     public function manageUser()
     {
         if ($this->isLoggedIn()) {
-            $model = new UserModel();
-            $user = $model->find(session()->get('whoLoggedIn'));
             //dd($user);
-            if ($user['role'] == 0) {
+            if ($this->isFullAccess()) {
+                $model = new UserModel();
                 return view('Admin/ManageUser/Index', [
                     'judul' => 'Kelola User | DISPERTAPAHORBUN',
                     'user' => $model->findAll()
@@ -76,9 +82,8 @@ class UserController extends BaseController
     public function createUser()
     {
         if ($this->isLoggedIn()) {
-            $model = new UserModel();
-            $user = $model->find(session()->get('whoLoggedIn'));
-            if ($user['role'] == 0) {
+            if ($this->isFullAccess()) {
+                $model = new UserModel();
                 if (!$this->validate([
                     'frmUsername' => 'required',
                     'frmNama' => 'required',
@@ -102,6 +107,110 @@ class UserController extends BaseController
                         'judul' => 'Penambahan Sukses',
                         'msg' => 'User telah ditambahkan dengan sukses',
                         'role' => 'success'
+                    ]);
+                }
+            } else {
+                return redirect()->route('admin.artikel')->with('message', [
+                    'judul' => 'Akses dilarang',
+                    'msg' => 'Anda tidak mempunyai akses ke alamat ini',
+                    'role' => 'error'
+                ]);
+            }
+        } else {
+            return redirect()->route('home');
+        }
+    }
+
+    public function kelolaAJAX()
+    {
+        if ($this->isLoggedIn()) {
+            if ($this->request->isAJAX()) {
+                if (
+                    $this->request->getPost('getUserInfo') == true &&
+                    $this->request->getPost('secret') == 'xo12esadsas12s' &&
+                    $this->isFullAccess()
+                ) {
+                    $model = new UserModel();
+                    $result = $model->select('id_user, username, nama_user, role')
+                        ->where('id_user', $this->request->getPost('id'))
+                        ->first();
+
+                    return json_encode($result);
+                } else {
+                    return json_encode([
+                        'msg' => 'Not accessible'
+                    ]);
+                }
+            } else {
+                return json_encode([
+                    'msg' => 'Not accessible'
+                ]);
+            }
+        } else {
+            return json_encode([
+                'msg' => 'Not accessible'
+            ]);
+        }
+    }
+
+    public function editUser()
+    {
+        if ($this->isLoggedIn()) {
+            if ($this->isFullAccess()) {
+                if ($this->validate([
+                    'frmEUsername' => 'required',
+                    'frmENama' => 'required',
+                    'frmEAccess' => 'required|numeric',
+                    'idEUser' => 'required|numeric'
+                ])) {
+                    $model = new UserModel();
+                    $model->update($this->request->getPost('idEUser'), [
+                        'nama_user' => esc($this->request->getPost('frmENama')),
+                        'username' => esc($this->request->getPost('frmEUsername')),
+                        'role' => $this->request->getPost('frmEAccess')
+                    ]);
+
+                    return redirect()->route('admin.user.manage')->with('message', [
+                        'judul' => 'Sukses Update',
+                        'msg' => 'Sukses untuk mengubah informasi User',
+                        'role' => 'success'
+                    ]);
+                } else {
+                    return redirect()->route('admin.user.manage')->with('message', [
+                        'judul' => 'Error Validasi',
+                        'msg' => 'Anda tidak memenuhi rule validasi salah satu / beberapa validasi',
+                        'role' => 'error'
+                    ]);
+                }
+            } else {
+                return redirect()->route('admin.artikel')->with('message', [
+                    'judul' => 'Akses dilarang',
+                    'msg' => 'Anda tidak mempunyai akses ke alamat ini',
+                    'role' => 'error'
+                ]);
+            }
+        } else {
+            return redirect()->route('home');
+        }
+    }
+
+    public function deleteUser()
+    {
+        if ($this->isLoggedIn()) {
+            if ($this->isFullAccess()) {
+                $model = new UserModel();
+                try {
+                    $model->delete($this->request->getPost('idUser'));
+                    return redirect()->back()->with('message', [
+                        'judul' => 'Delete Sukses',
+                        'msg' => 'Penghapusan User Sukses',
+                        'role' => 'success'
+                    ]);
+                } catch (\Exception $e) {
+                    return redirect()->back()->with('message', [
+                        'judul' => 'Error Delete',
+                        'msg' => 'User yang anda akan hapus masih terikat pada artikel yang dibuat. Silahkan menghapus artikelnya terlebih dahulu',
+                        'role' => 'error'
                     ]);
                 }
             } else {

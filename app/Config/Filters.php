@@ -21,7 +21,8 @@ class Filters extends BaseConfig
 			'csrf' => ['except' =>
 			[
 				'admin/kategori/ajax',
-				'admin/artikel/comment/ajax'
+				'admin/artikel/comment/ajax',
+				'admin/user/ajax'
 			]]
 		],
 		'after'  => [

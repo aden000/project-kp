@@ -29,8 +29,9 @@
                         <td style="vertical-align: middle;"><?= $u['nama_user']; ?></td>
                         <td style="vertical-align: middle;"><?= $u['role'] == 0 ? 'Full Akses' : 'Hanya Posting'; ?></td>
                         <td style="vertical-align: middle;">
-                            <button type="button" class="btn btn-outline-info btnEdit" data-toggle="modal" data-id="<?= $u['id_user']; ?>" data-target="#modelEdit"><i class="fa fa-pencil"></i></button> |
-                            <button type="button" class="btn btn-outline-danger btnHapus" data-toggle="modal" data-id="<?= $u['id_user']; ?>" data-target="#modelHapus"><i class="fa fa-trash-o"></i></button>
+                            <button type="button" class="btn btn-outline-info btnUserEdit" title="Edit User" data-toggle="modal" data-id="<?= $u['id_user']; ?>" data-target="#modelEditUser"><i class="fa fa-pencil"></i></button> |
+                            <button type="button" class="btn btn-outline-danger btnUserHapus" title="Hapus User" data-toggle="modal" data-id="<?= $u['id_user']; ?>" data-target="#modelHapusUser"><i class="fa fa-trash-o"></i></button> |
+                            <button type="button" class="btn btn-outline-warning" title="Reset Password" data-id="<?= $u['id_user']; ?>"><i class="fa fa-key"></i></button>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -81,6 +82,83 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="modelEditUser" tabindex="-1" role="dialog" aria-labelledby="modelEditUserId" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit User</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="<?= route_to('admin.user.edit'); ?>" method="post">
+                        <?= csrf_field(); ?>
+                        <div class="modal-body">
+                            <input type="hidden" name="idEUser" id="idEUser">
+                            <div class="form-group">
+                                <label for="frmEUsername">Username</label>
+                                <input type="text" class="form-control" name="frmEUsername" id="frmEUsername" aria-describedby="userHelp" placeholder="Masukan username" required>
+                                <small id="userHelp" class="form-text text-muted">Username akan digunakan untuk login</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="frmENama">Nama User</label>
+                                <input type="text" class="form-control" name="frmENama" id="frmENama" aria-describedby="helpNamaId" placeholder="Masukan Nama" required>
+                                <small id="helpNamaId" class="form-text text-muted">Digunakan untuk ditampilkan ke postingan yang anda buat</small>
+                            </div>
+                            <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    <span class="sr-only">Close</span>
+                                </button>
+                                <p><i class="fa fa-info-circle"></i> Untuk pengubahan Password, anda hanya bisa akses Reset Password (Icon bertanda <i class="fa fa-key"></i> ), dan user akan mengubahnya secara mandiri melalui fitur Ubah Password</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="frmEAccess">Hak Akses</label>
+                                <select class="custom-select" name="frmEAccess" id="frmEAccess">
+                                    <option>Silahkan Pilih</option>
+                                    <option value="0">Full Akses</option>
+                                    <option value="1">Hanya Posting</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i> Batal</button>
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modelHapusUser" tabindex="-1" role="dialog" aria-labelledby="modelHapusUserId" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Hapus User?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Apakah anda yakin untuk menghapus user:</p>
+                        <strong>
+                            <p id="NamaUser"></p>
+                        </strong>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i> Batal</button>
+                        <form action="<?= route_to('admin.user.delete'); ?>" method="post">
+                            <?= csrf_field(); ?>
+                            <input type="hidden" name="idUser" id="idUser">
+                            <button type="submit" class="btn btn-danger"><i class="fa fa-trash-o"></i> Hapus</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+
 </div>
 <?= $this->endSection(); ?>

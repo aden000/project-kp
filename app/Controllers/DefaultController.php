@@ -56,7 +56,7 @@ class DefaultController extends BaseController
 
     public function artikel($slug = null)
     {
-        if ($slug == null) return redirect(route_to('home'));
+        if ($slug == null) return redirect()->route('home');
 
 
         $model = new ArtikelModel();

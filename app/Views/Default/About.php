@@ -7,7 +7,7 @@
 <?php endif; ?>
 
 <div class="row mx-4" style="padding-top: 20px; padding-bottom: 20px; margin-bottom: 10px;">
-    <div class="col-8 shadow-sm border border-dark" style="padding-top: 10px; background-color: #fff;">
+    <div class="col col-md-8 shadow-sm border border-dark" style="padding-top: 10px; background-color: #fff;">
         <h4>Tentang Website</h4>
         <p>Dalam rangka untuk meningkatkan pelayanan tehadap masyarakat, Dinas Pertanian Tanaman Pangan, Hortikultura dan Perkebunan menyajikan buku Laporan Tahunan Tahun 2018 tentang perkembangan pembangunan Pertanian Tanaman Pangan, Hortikultura dan Perkebunan di Kabupaten Bangkalan. Selain itu buku ini diharapkan dapat dijadikan :<br>
             <br>
@@ -34,18 +34,14 @@
             </strong>
         </p>
     </div>
-    <div class="col-4">
-        <div class="row">
-            <div class="col border border-dark shadow-sm mx-3 pt-2" style="background-color: #fff;">
-                <h6>Made by love with <strong>CodeIgniter 4</strong></h6>
-                <cite>Kelompok Kerja Praktek</cite>
-                <ul>
-                    <li>Aditiya Gusti Apriliansyah | 06.2017.1.06732</li>
-                    <li>M. Yusuf Eka Saputra | 06.2017.1.06733</li>
-                    <li>Achmad Ade Nugroho | 06.2017.1.06740</li>
-                </ul>
-            </div>
-        </div>
+    <div class="col-auto col-sm-4 col-md-4 mt-4 pt-2 mt-sm-0 mt-md-0 shadow-sm border border-dark" style="background-color: #fff; height:fit-content;">
+        <h6>Made by love with <strong>CodeIgniter 4</strong></h6>
+        <cite>Kelompok Kerja Praktek</cite>
+        <ul>
+            <li>Aditiya Gusti Apriliansyah | 06.2017.1.06732</li>
+            <li>M. Yusuf Eka Saputra | 06.2017.1.06733</li>
+            <li>Achmad Ade Nugroho | 06.2017.1.06740</li>
+        </ul>
     </div>
 </div>
 <?= $this->endSection(); ?>

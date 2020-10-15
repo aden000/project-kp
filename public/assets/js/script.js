@@ -67,6 +67,54 @@ $(document).ready(function () {
             }
         });
     });
+
+    $('.btnUserEdit').click(function (e) { 
+        e.preventDefault();
+        var idUser = $(this).data('id');
+
+        $.ajax({
+            type: "post",
+            url: "/admin/user/ajax",
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            data: {
+                'getUserInfo': true,
+                'secret': 'xo12esadsas12s',
+                'id': idUser
+            },
+            dataType: "json",
+            success: function (response) {
+                $('#idEUser').val(response.id_user);
+                $('#frmEUsername').val(response.username);
+                $('#frmENama').val(response.nama_user);
+                $('#frmEAccess').val(response.role);
+            }
+        });
+    });
+
+    $('.btnUserHapus').click(function (e) { 
+        var id = $(this).data('id');
+        e.preventDefault();
+        
+        $.ajax({
+            type: "post",
+            url: "/admin/user/ajax",
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            data: {
+                'getUserInfo': true,
+                'secret': 'xo12esadsas12s',
+                'id': id
+            },
+            dataType: "json",
+            success: function (response) {
+                $('#NamaUser').text(response.nama_user);
+                $('#idUser').val(response.id_user);
+            }
+        });
+    });
 });
 
 $(function () {

@@ -24,7 +24,7 @@ use CodeIgniter\I18n\Time; ?>
                         <span>
                             <h6><?= $a['judul_artikel']; ?></h6><cite><small><?= Time::parse($a['created_at'])->toLocalizedString('d MMMM yyyy'); ?> | Kategori: <?= $a['nama_kategori']; ?> | By: <?= $a['nama_user']; ?></small></cite>
                         </span>
-                        <p><?= strip_tags(substr($a['isi_artikel'], 0, 130)) . '... '; ?><br><strong>Read More</strong></p>
+                        <p><?= substr(strip_tags($a['isi_artikel']), 0, 130) . '... '; ?><br><strong>Read More</strong></p>
                     </div>
                 </div>
             </a>

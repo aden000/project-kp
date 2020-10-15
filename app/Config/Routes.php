@@ -67,6 +67,9 @@ if (!env('isMaintenance')) {
 			$routes->post('changepass', 'UserController::changePassword', ['as' => 'admin.user.changepass']);
 			$routes->get('/', 'UserController::manageUser', ['as' => 'admin.user.manage']);
 			$routes->post('create', 'UserController::createUser', ['as' => 'admin.user.create']);
+			$routes->post('edit', 'UserController::editUser', ['as' => 'admin.user.edit']);
+			$routes->post('delete', 'UserController::deleteUser', ['as' => 'admin.user.delete']);
+			$routes->post('ajax', 'UserController::kelolaAJAX');
 		});
 	});
 } else {
