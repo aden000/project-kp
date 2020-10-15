@@ -91,5 +91,6 @@ Additionally, make sure that the following extensions are enabled in your PHP:
 
 ## Known Bugs
 
-- Jika sudah masuk CI_ENVIRONMENT menjadi production, Seluruh Exception tidak dideteksi (termasuk Database Exception), masih bingung tentang sistem CodeIgniter 4
+- Jika sudah masuk CI_ENVIRONMENT menjadi production, Seluruh Exception tidak dideteksi (termasuk Database Exception),hal ini yang menyebabkan kalau kita ingin delete kategori yang masih digunakan di artikel, kita ingin tampilin message ke pengguna, agar pengguna bisa melakukan apa yang kita sarankan di message tersebut, begitu juga delete user... masih bingung tentang sistem CodeIgniter 4
+- Update: Setelah baca baca, Another framework ex: laravel pun juga begitu, so... dijadiin development trus aja kali wkwk, 
 
