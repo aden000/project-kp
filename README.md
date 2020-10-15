@@ -88,3 +88,8 @@ Additionally, make sure that the following extensions are enabled in your PHP:
 
 - [SweetAlert2](https://sweetalert2.github.io/)
 - [WYSIWYG TinyMCE Editor](https://www.tiny.cloud/docs/quick-start/)
+
+## Known Bugs
+
+- Jika sudah masuk CI_ENVIRONMENT menjadi production, Seluruh Exception tidak dideteksi (termasuk Database Exception), masih bingung tentang sistem CodeIgniter 4
+
