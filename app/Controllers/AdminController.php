@@ -76,7 +76,16 @@ class AdminController extends BaseController
                 'judul' => 'Kelola Artikel | DISPERTAPAHORBUN',
                 'artikel' => $result
             ];
-            return view('Admin/ManageArticle', $data);
+            $kategoridb = new KategoriModel();
+            if ($kategoridb->countAll() == 0) {
+                return redirect()->route('admin.kategori')->with('message', [
+                    'judul' => 'Buat Kategori Terlebih dahulu',
+                    'msg' => 'Artikel dibuat berdasarkan kategori, silahkan membuat kategori terlebih dahulu',
+                    'role' => 'info'
+                ]);
+            } else {
+                return view('Admin/ManageArticle', $data);
+            }
         } else {
             return redirect()->route('home');
         }

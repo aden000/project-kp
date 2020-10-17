@@ -12,10 +12,10 @@ class AdminSeeder extends Seeder
 		//
 		$model = new UserModel();
 		$model->insert([
-			'username' => 'bejo',
-			'nama_user' => 'Bejo Subejo',
-			'password' =>  password_hash('bejodeso', PASSWORD_BCRYPT),
-			'role' => 1 // Role 0 - Full Access, Role 1 - Posting Only
+			'username' => 'admin',
+			'nama_user' => 'Administrator',
+			'password' =>  password_hash('admin', PASSWORD_BCRYPT),
+			'role' => 0 // Role 0 - Full Access, Role 1 - Posting Only
 		]);
 	}
 }
