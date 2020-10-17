@@ -40,7 +40,7 @@
             selector: 'textarea#isiArtikel',
             menubar: '',
             plugins: 'link lists wordcount media code',
-            toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | numlist bullist | outdent indent | forecolor backcolor | link | media | code',
+            toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | numlist bullist | outdent indent | forecolor backcolor | removeformat | link | media | code',
             custom_colors: true,
             media_live_embeds: true,
             height: "500",
