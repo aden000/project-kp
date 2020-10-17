@@ -127,4 +127,4 @@ nb-configuration.xml
 /.phpunit.*.cache
 
 # This Project
-public/assets/artikel/img/
+public/assets/artikel/img/*
