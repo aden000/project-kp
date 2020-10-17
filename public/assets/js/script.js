@@ -115,6 +115,50 @@ $(document).ready(function () {
             }
         });
     });
+
+    $('.btnUserResetPass').click(function (e) { 
+        e.preventDefault();
+        var id = $(this).data('id');
+
+        Swal.fire({
+            title: 'Reset password?',
+            html: '<b>PERINGATAN</b><br>' + 
+                    'Anda tidak dapat membatalkan aksi ini setelah menekan tombol <b>YA</b>',
+            icon: 'question',
+            showDenyButton: true,
+            confirmButtonText: 'Ya',
+            denyButtonText: `Batalkan`,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                //Swal.fire('Saved!', '', 'success')
+                $.ajax({
+                    type: "post",
+                    url: "/admin/user/ajax",
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    data: {
+                        'getUserResetPassword': true,
+                        'secret': '3u4tnuj23eqk',
+                        'id': id
+                    },
+                    dataType: "json",
+                    success: function (response) {
+                        Swal.fire({
+                            'title': 'Reset Password berhasil!',
+                            'html': `Harap catat password ini, dan segera ubah pada user yang bersangkutan` + 
+                                    `<br>Password: <b>` + response.newpass + `</b>`,
+                            'icon': 'success'
+                        });
+                    }
+                });
+                
+            } else if (result.isDenied) {
+              Swal.fire('Perubahan password dibatalkan', '', 'info')
+            }
+        });
+    });
 });
 
 $(function () {

@@ -136,6 +136,19 @@ class UserController extends BaseController
                         ->first();
 
                     return json_encode($result);
+                } else if (
+                    $this->request->getPost('getUserResetPassword') == true &&
+                    $this->request->getPost('secret') == '3u4tnuj23eqk' &&
+                    $this->isFullAccess()
+                ) {
+                    $model = new UserModel();
+                    $result = $model->update($this->request->getPost('id'), [
+                        'password' => password_hash(env('defPass'), PASSWORD_BCRYPT)
+                    ]);
+
+                    return json_encode([
+                        'newpass' => env('defPass')
+                    ]);
                 } else {
                     return json_encode([
                         'msg' => 'Not accessible'

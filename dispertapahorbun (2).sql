@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 08, 2020 at 02:17 PM
+-- Generation Time: Oct 17, 2020 at 10:06 AM
 -- Server version: 10.4.8-MariaDB
--- PHP Version: 7.2.10
+-- PHP Version: 7.4.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -79,7 +79,10 @@ CREATE TABLE `user` (
   `nama_user` varchar(50) NOT NULL,
   `username` varchar(30) NOT NULL,
   `password` varchar(100) NOT NULL,
-  `role` int(11) NOT NULL COMMENT '0 - Role Full Access\r\n1 - Role Only Posting'
+  `role` int(11) NOT NULL COMMENT '0 - Role Full Access\r\n1 - Role Only Posting',
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `deleted_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --

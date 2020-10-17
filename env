@@ -117,3 +117,6 @@ enableComment = false
 
 # Is Maintenance - Berguna ketika website yang dikelola sedang ada perbaikan/penambahan fitur
 isMaintenance = false
+
+# Default Password - Digunakan saat menggunakan fitur reset password user
+defPass = 'DiSpeRtaPah0RbuN'

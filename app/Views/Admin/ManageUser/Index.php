@@ -30,8 +30,10 @@
                         <td style="vertical-align: middle;"><?= $u['role'] == 0 ? 'Full Akses' : 'Hanya Posting'; ?></td>
                         <td style="vertical-align: middle;">
                             <button type="button" class="btn btn-outline-info btnUserEdit" title="Edit User" data-toggle="modal" data-id="<?= $u['id_user']; ?>" data-target="#modelEditUser"><i class="fa fa-pencil"></i></button> |
-                            <button type="button" class="btn btn-outline-danger btnUserHapus" title="Hapus User" data-toggle="modal" data-id="<?= $u['id_user']; ?>" data-target="#modelHapusUser"><i class="fa fa-trash-o"></i></button> |
-                            <button type="button" class="btn btn-outline-warning" title="Reset Password" data-id="<?= $u['id_user']; ?>"><i class="fa fa-key"></i></button>
+                            <?php if ($u['id_user'] != session()->get('whoLoggedIn')) : ?>
+                                <button type="button" class="btn btn-outline-danger btnUserHapus" title="Hapus User" data-toggle="modal" data-id="<?= $u['id_user']; ?>" data-target="#modelHapusUser"><i class="fa fa-trash-o"></i></button> |
+                            <?php endif; ?>
+                            <button type="button" class="btn btn-outline-warning btnUserResetPass" title="Reset Password" data-id="<?= $u['id_user']; ?>"><i class="fa fa-key"></i></button>
                         </td>
                     </tr>
                 <?php endforeach; ?>

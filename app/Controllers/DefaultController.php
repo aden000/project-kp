@@ -17,7 +17,7 @@ class DefaultController extends BaseController
 
             $result = $db->join('user', 'artikel.id_user = user.id_user', 'right')
                 ->join('kategori', 'artikel.id_kategori = kategori.id_kategori', 'right')
-                ->select('id_artikel, link_gambar, created_at, judul_artikel, slug, isi_artikel, nama_user, nama_kategori')
+                ->select('id_artikel, link_gambar, artikel.created_at, judul_artikel, slug, isi_artikel, nama_user, nama_kategori')
                 ->groupStart()
                 ->like('judul_artikel', $search)
                 ->orLike('isi_artikel', $search)
@@ -35,7 +35,7 @@ class DefaultController extends BaseController
         } else {
             $result = $db->join('user', 'artikel.id_user = user.id_user')
                 ->join('kategori', 'artikel.id_kategori = kategori.id_kategori')
-                ->select('id_artikel, link_gambar, created_at, judul_artikel, slug, isi_artikel, nama_user, nama_kategori')
+                ->select('id_artikel, link_gambar, artikel.created_at, judul_artikel, slug, isi_artikel, nama_user, nama_kategori')
                 ->orderBy('id_artikel', 'DESC')
                 ->findAll();
             $data = [
@@ -62,6 +62,8 @@ class DefaultController extends BaseController
         $model = new ArtikelModel();
         $result = $model->join('kategori', 'artikel.id_kategori = kategori.id_kategori')
             ->join('user', 'artikel.id_user = user.id_user')
+            ->select('artikel.id_artikel, artikel.judul_artikel, artikel.link_gambar, user.nama_user, kategori.nama_kategori,
+                    artikel.created_at, artikel.updated_at, artikel.isi_artikel')
             ->where('slug', $slug)
             ->first();
 
