@@ -320,6 +320,42 @@ class AdminController extends BaseController
                     $kategoriModel = new KategoriModel();
                     $kategori = $kategoriModel->find($this->request->getPost("id"));
                     return $kategori['nama_kategori'];
+                } else if ($this->request->getPost("type") === "uploadfilefortinymce") {
+                    $id = $this->request->getPost('id');
+                    $file = $this->request->getFile('file');
+                    if ($id == null) {
+                        // $aModel = new ArtikelModel();
+                        //dd($aModel->getInsertID());
+                        if (
+                            $file->isValid() &&
+                            ($file->getMimeType() == "image/png" ||
+                                $file->getMimeType() == "image/jpg" ||
+                                $file->getMimeType() == "image/bmp")
+                        ) {
+                            $filename = $file->getRandomName();
+                            $file->move(ROOTPATH . '/public/assets/artikel/img/temp/', $filename);
+                            return json_encode([
+                                'location' => base_url("assets/artikel/img/temp/" . $filename),
+                            ]);
+                        } else {
+                            $this->response->setStatusCode(403, 'Not valid file or mime type');
+                        }
+                    } else {
+                        if (
+                            $file->isValid() &&
+                            ($file->getMimeType() == "image/png" ||
+                                $file->getMimeType() == "image/jpg" ||
+                                $file->getMimeType() == "image/bmp")
+                        ) {
+                            $filename = $file->getRandomName();
+                            $file->move(ROOTPATH . '/public/assets/artikel/img/' . $id . '/', $filename);
+                            return json_encode([
+                                'location' => base_url("assets/artikel/img/" . $id . "/" . $filename),
+                            ]);
+                        } else {
+                            $this->response->setStatusCode(403, 'Not valid file or mime type');
+                        }
+                    }
                 }
             } else {
                 throw new PageNotFoundException();
