@@ -5,6 +5,8 @@ namespace App\Controllers;
 use App\Models\ArtikelModel;
 use App\Models\KategoriModel;
 use App\Models\UserModel;
+use CodeIgniter\Config\DotEnv;
+use CodeIgniter\Database\Exceptions\DatabaseException;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use Exception;
 
@@ -277,7 +279,8 @@ class AdminController extends BaseController
             }
             rmdir($deletedPath);
 
-            $artikelModel->delete($id);
+            $artikelModel->delete($id, !env('enableComment'));
+
 
             return redirect()->route('admin.artikel')->with('message', [
                 'judul' => 'Hapus Artikel Sukses',
@@ -332,7 +335,7 @@ class AdminController extends BaseController
         if ($session->get('whoLoggedIn')) {
             $kategoriModel = new KategoriModel();
             $kategoriModel->save([
-                'nama_kategori' => $this->request->getVar('namakategori')
+                'nama_kategori' => esc($this->request->getVar('namakategori'))
             ]);
 
             return redirect()->back()->with('message', [
@@ -361,7 +364,7 @@ class AdminController extends BaseController
             } else {
                 $kategoriModel = new KategoriModel();
                 $kategoriModel->update($this->request->getPost('idkEdit'), [
-                    'nama_kategori' => $this->request->getPost('namakategoriedit')
+                    'nama_kategori' => esc($this->request->getPost('namakategoriedit'))
                 ]);
 
                 return redirect()->route('admin.kategori')->with('message', [
@@ -380,17 +383,27 @@ class AdminController extends BaseController
         $session = session();
         if ($session->get('whoLoggedIn')) {
             $kategoriModel = new KategoriModel();
-            try {
-                //dd($this->request->getPost());
+            if (env('CI_ENVIRONMENT') !== 'production') {
+                try {
+                    $kategoriModel->delete($this->request->getPost("idkHapus"));
+                } catch (Exception $e) {
+                    return redirect()->route('admin.kategori')->with('message', [
+                        'judul' => 'Terjadi kesalahan',
+                        'msg' => 'Kategori tidak dapat dihapus dikarenakan ada artikel yang menggunakan kategori ini',
+                        'role' => 'error'
+                    ]);
+                }
+            } else {
                 $kategoriModel->delete($this->request->getPost("idkHapus"));
-            } catch (Exception $e) {
-                return redirect()->route('admin.kategori')->with('message', [
-                    'judul' => 'Terjadi kesalahan',
-                    'msg' => 'Kategori tidak dapat dihapus dikarenakan ada artikel yang menggunakan kategori ini',
-                    'role' => 'error'
-                ]);
-                //throw new Exception("Kategori gagal dihapus karena masih ada artikel yang menggunakan kategori ini");
+                if ($kategoriModel->errors(true)) {
+                    return redirect()->route('admin.kategori')->with('message', [
+                        'judul' => 'Terjadi kesalahan',
+                        'msg' => 'Kategori tidak dapat dihapus dikarenakan ada artikel yang menggunakan kategori ini',
+                        'role' => 'error'
+                    ]);
+                }
             }
+
             return redirect()->route('admin.kategori')->with('message', [
                 'judul' => 'Hapus Kategori Sukses',
                 'msg' => 'Kategori berhasil untuk dihapus',

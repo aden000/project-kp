@@ -27,7 +27,8 @@
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <p class="text">Hak Cipta &copy;<?= date('Y'); ?> | Dinas Pertanian Tanaman Pangan, Hortikultura dan Perkebunan Kabupaten Bangkalan</p>
+                    <p class="text">Hak Cipta &copy;<?= date('Y'); ?> | Dinas Pertanian Tanaman Pangan, Hortikultura dan Perkebunan Kabupaten Bangkalan <br>
+                        Kelompok Kerja Praktek: 1. Aditiya Gusti Apriliansyah, 2. M. Yusuf Eka Saputra, 3. Achmad Ade Nugroho</p>
                 </div>
             </div>
         </div>
