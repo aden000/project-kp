@@ -39,8 +39,8 @@
         tinymce.init({
             selector: 'textarea#isiArtikel',
             menubar: '',
-            plugins: 'link lists wordcount media code',
-            toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | numlist bullist | outdent indent | forecolor backcolor | removeformat | link | media | code',
+            plugins: 'link lists wordcount media code image',
+            toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | numlist bullist | outdent indent | forecolor backcolor | removeformat | link | media image | code',
             custom_colors: true,
             media_live_embeds: true,
             height: "500",
@@ -55,8 +55,62 @@
                     }
                     //custom logic  
                 });
-            }
+            },
+            images_upload_url: '/admin/ajax',
+            images_upload_handler: example_image_upload_handler
         });
+
+        function example_image_upload_handler(blobInfo, success, failure, progress) {
+            var xhr, formData;
+
+            xhr = new XMLHttpRequest();
+            xhr.withCredentials = false;
+            xhr.open('POST', '/admin/ajax');
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
+
+            xhr.upload.onprogress = function(e) {
+                progress(e.loaded / e.total * 100);
+            };
+
+            xhr.onload = function() {
+                var json;
+
+                if (xhr.status === 403) {
+                    failure('HTTP Error: ' + xhr.status, {
+                        remove: true
+                    });
+                    return;
+                }
+
+                if (xhr.status < 200 || xhr.status >= 300) {
+                    failure('HTTP Error: ' + xhr.status);
+                    return;
+                }
+
+                console.log(xhr.responseText);
+                json = JSON.parse(xhr.responseText);
+
+                if (!json || typeof json.location != 'string') {
+                    failure('Invalid JSON: ' + xhr.responseText);
+                    return;
+                }
+                success(json.location);
+            };
+
+            xhr.onerror = function() {
+                failure('Image upload failed due to a XHR Transport error. Code: ' + xhr.status);
+            };
+
+            var fd = new FormData();
+            var url = new URL(window.location.href);
+            url = url.pathname.toString();
+            url = url.split('/');
+            fd.append('file', blobInfo.blob(), blobInfo.filename());
+            fd.append('id', url[4]);
+            fd.append('type', 'uploadfilefortinymce');
+
+            xhr.send(fd);
+        };
     </script>
 </body>
 
