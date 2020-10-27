@@ -28,12 +28,13 @@
                             <td style="vertical-align: middle;"><?php echo $a['nama_user']; ?></td>
                             <td style="vertical-align: middle;"><?php echo $a['judul_artikel']; ?></td>
                             <td style="vertical-align: middle;"><a target="_blank" href="<?= base_url('assets/artikel/img/' . $a['id_artikel'] . '/' . $a['link_gambar']); ?>"><img src="<?php echo base_url('assets/artikel/img/' . $a['id_artikel'] . '/' . $a['link_gambar']); ?>" style="width:100px; height:50px;" alt="ImageThumbnail<?= $a['id_artikel'] ?>" class="img img-thumbnail"></a></td>
-                            <td style="vertical-align: middle;"><a href="<?= route_to('detail.artikel', $a['slug']); ?>" class="btn btn-outline-secondary"><i class="fa fa-eye"></i> Lihat artikel</a></td>
+                            <td style="vertical-align: middle;"><a href="<?= route_to('detail.artikel', $a['slug']); ?>" class="btn btn-outline-secondary"><i class="fa fa-newspaper-o"></i> Lihat artikel</a></td>
                             <td style="vertical-align: middle;">
                                 <span class="my-auto">
-                                    <a title="Edit Artikel" href=" <?= route_to('admin.artikel.edit', $a['id_artikel']); ?>" class="btn btn-outline-info"><i class="fa fa-pencil"></i></a>
+                                    <a title="Edit Artikel" href=" <?= route_to('admin.artikel.edit', $a['id_artikel']); ?>" class="btn btn-outline-info"><i class="fa fa-pencil"></i> Edit</a>
                                     <!-- <a href="<?= route_to('admin.artikel.delete', $a['id_artikel']); ?>" class="btn btn-outline-danger"><i class="fa fa-trash-o"></i></a> -->
-                                    <button title="Hapus Artikel" type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#modelId<?= $a['id_artikel']; ?>"><i class="fa fa-trash-o"></i></button>
+                                    <button title="Hapus Artikel" type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#modelId<?= $a['id_artikel']; ?>"><i class="fa fa-trash-o"></i> Hapus</button>
+                                    <button class="btn btn-outline-success togglepublish" data-id="<?= $a['id_artikel']; ?>"><i class="fa fa-<?= $a['published_at'] == null ? 'eye' : 'eye-slash'; ?>"></i> <?= $a['published_at'] == null ? 'Terbitkan' : 'Batal Terbitkan'; ?></button>
                                     <?php if (env('enableComment')) : ?>
                                         <a title="Kelola Komentar" href="<?= route_to('admin.artikel.comment', $a['id_artikel']); ?>" class="btn btn-outline-success"><i class="fa fa-comments-o"></i></a>
                                     <?php endif; ?>

@@ -23,6 +23,14 @@ class ArtikelModel extends Model
         "judul_artikel",
         "slug",
         "link_gambar",
-        "isi_artikel"
+        "isi_artikel",
+        "published_at"
     ];
+
+    public function getNextIncrement()
+    {
+        $query = $this->db->query("SHOW TABLE STATUS LIKE 'artikel'");
+        $result = $query->getRowArray();
+        return $result['Auto_increment'];
+    }
 }

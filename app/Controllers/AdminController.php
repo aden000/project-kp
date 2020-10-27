@@ -8,6 +8,8 @@ use App\Models\UserModel;
 use CodeIgniter\Config\DotEnv;
 use CodeIgniter\Database\Exceptions\DatabaseException;
 use CodeIgniter\Exceptions\PageNotFoundException;
+use CodeIgniter\I18n\Time;
+use DateTime;
 use Exception;
 
 class AdminController extends BaseController
@@ -138,20 +140,48 @@ class AdminController extends BaseController
                     if ($file->isValid()) {
                         $newname = $file->getRandomName();
                         $model = new ArtikelModel();
-                        $model->save([
-                            'id_kategori' => $this->request->getPost('kategoriSelect'),
-                            'judul_artikel' => esc($this->request->getPost('judulArtikel')),
-                            'slug' => url_title(esc($this->request->getPost('judulArtikel')), '-', true),
-                            'link_gambar' => $newname,
-                            'isi_artikel' => $this->request->getPost('isiArtikel'),
-                            'id_user' => $session->get('whoLoggedIn')
-                        ]);
+                        if (env('CI_ENVIRONMENT') !== 'production') :
+                            try {
+                                $model->save([
+                                    'id_kategori' => $this->request->getPost('kategoriSelect'),
+                                    'judul_artikel' => esc($this->request->getPost('judulArtikel')),
+                                    'slug' => url_title(esc($this->request->getPost('judulArtikel')), '-', true),
+                                    'link_gambar' => $newname,
+                                    'isi_artikel' => $this->request->getPost('isiArtikel'),
+                                    'id_user' => $session->get('whoLoggedIn'),
+                                    'published_at' => ($this->request->getPost('SimpanBos') === 'SimpanBos') ? Time::now() : null
+                                ]);
+                            } catch (Exception $e) {
+                                return redirect()->route('admin.artikel')->with('message', [
+                                    'judul' => 'Terjadi Kesalahan',
+                                    'msg' => $e->getMessage(),
+                                    'role' => 'error'
+                                ]);
+                            }
+                        else :
+                            $model->save([
+                                'id_kategori' => $this->request->getPost('kategoriSelect'),
+                                'judul_artikel' => esc($this->request->getPost('judulArtikel')),
+                                'slug' => url_title(esc($this->request->getPost('judulArtikel')), '-', true),
+                                'link_gambar' => $newname,
+                                'isi_artikel' => $this->request->getPost('isiArtikel'),
+                                'id_user' => $session->get('whoLoggedIn'),
+                                'published_at' => ($this->request->getPost('SimpanBos') === 'SimpanBos') ? Time::now() : null
+                            ]);
+                            if ($err = $model->errors(true)) {
+                                return redirect()->route('admin.artikel')->with('message', [
+                                    'judul' => 'Terjadi Kesalahan',
+                                    'msg' => implode(",", (array) $err),
+                                    'role' => 'error'
+                                ]);
+                            }
+                        endif;
 
                         $file->move(ROOTPATH . 'public/assets/artikel/img/' . $model->getInsertID() . '/', $newname);
-
+                        $var = ($this->request->getPost('SimpanBos') === 'SimpanBos') ? ' dan dipublikasikan' : ' dan disimpan ke draf';
                         return redirect()->route('admin.artikel')->with('message', [
                             'judul' => 'Artikel dibuat',
-                            'msg' => 'Artikel dan gambar berhasil dibuat',
+                            'msg' => 'Artikel dan gambar berhasil dibuat' . $var,
                             'role' => 'success'
                         ]);
                     } else {
@@ -271,13 +301,13 @@ class AdminController extends BaseController
         if ($session->get('whoLoggedIn')) {
             $artikelModel = new ArtikelModel();
             $deletedPath = ROOTPATH . '/public/assets/artikel/img/' . $id . '/';
-            $file = $artikelModel->find($id);
-            $namafile = $file['link_gambar'];
-            unlink($deletedPath . $namafile);
-            if (file_exists($deletedPath . 'index.html')) {
-                unlink($deletedPath . 'index.html');
-            }
-            rmdir($deletedPath);
+            // $file = $artikelModel->find($id);
+            // $namafile = $file['link_gambar'];
+            // unlink($deletedPath . $namafile);
+            // if (file_exists($deletedPath . 'index.html')) {
+            //     unlink($deletedPath . 'index.html');
+            // }
+            $this->delTree($deletedPath);
 
             $artikelModel->delete($id, !env('enableComment'));
 
@@ -290,6 +320,16 @@ class AdminController extends BaseController
         } else {
             return redirect()->route('home');
         }
+    }
+
+    public function delTree($dir)
+    {
+        $files = array_diff(scandir($dir), array('.', '..'));
+        // dd($files);
+        foreach ($files as $file) {
+            (is_dir("$dir/$file")) ? $this->delTree("$dir/$file") : unlink("$dir/$file");
+        }
+        return rmdir($dir);
     }
 
     /**
@@ -320,6 +360,63 @@ class AdminController extends BaseController
                     $kategoriModel = new KategoriModel();
                     $kategori = $kategoriModel->find($this->request->getPost("id"));
                     return $kategori['nama_kategori'];
+                } else if ($this->request->getPost("type") === "uploadfilefortinymce") {
+                    $id = $this->request->getPost('id');
+                    $file = $this->request->getFile('file');
+                    if (isset($id)) {
+                        // $this->response->setStatusCode(500, 'You catched the undefined: ' . $id);
+                        $aModel = new ArtikelModel();
+                        $id = $aModel->getNextIncrement();
+                        // error_log("DEBUG: ID: " . $id . " SHIT");
+                        if (
+                            $file->isValid() &&
+                            ($file->getMimeType() == "image/png" ||
+                                $file->getMimeType() == "image/jpg" ||
+                                $file->getMimeType() == "image/bmp" ||
+                                $file->getMimeType() == "image/jpeg")
+                        ) {
+                            // $this->response->setStatusCode(500, 'Error, didn\'t get the ID: ' . $id);
+                            $filename = $file->getRandomName();
+                            $file->move(ROOTPATH . '/public/assets/artikel/img/' . $id . '/', $filename);
+                            return json_encode([
+                                'location' => base_url("assets/artikel/img/" . $id . "/" . $filename),
+                            ]);
+                        } else {
+                            $this->response->setStatusCode(403, 'Not valid file or mime type');
+                        }
+                    } else {
+                        // $this->response->setStatusCode(500, 'No... Not this shit again: ' . $id);
+                        if (
+                            $file->isValid() &&
+                            ($file->getMimeType() == "image/png" ||
+                                $file->getMimeType() == "image/jpg" ||
+                                $file->getMimeType() == "image/bmp" ||
+                                $file->getMimeType() == "image/jpeg")
+                        ) {
+                            $filename = $file->getRandomName();
+                            $file->move(ROOTPATH . '/public/assets/artikel/img/' . $id . '/', $filename);
+                            return json_encode([
+                                'location' => base_url("assets/artikel/img/" . $id . "/" . $filename),
+                            ]);
+                        } else {
+                            $this->response->setStatusCode(403, 'Not valid file or mime type');
+                        }
+                    }
+                } else if (
+                    $this->request->getPost("type") == "gettogglepublish" &&
+                    $this->request->getPost("secret") == "usaojdn1dwq12e3"
+                ) {
+                    $aModel = new ArtikelModel();
+                    $id = $this->request->getPost("id");
+                    $result = $aModel->find($id);
+                    $aModel->update($id, [
+                        'published_at' => $result['published_at'] == null ? Time::now() : null
+                    ]);
+                    $newresult = $aModel->find($id);
+                    return json_encode([
+                        'judul' => $newresult['published_at'] == null ? 'Berhasil untuk Batal Terbit' : 'Berhasil untuk Terbit',
+                        'published' => $newresult['published_at'] == null ? false : true
+                    ]);
                 }
             } else {
                 throw new PageNotFoundException();

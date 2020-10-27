@@ -17,13 +17,14 @@ class DefaultController extends BaseController
 
             $result = $db->join('user', 'artikel.id_user = user.id_user', 'right')
                 ->join('kategori', 'artikel.id_kategori = kategori.id_kategori', 'right')
-                ->select('id_artikel, link_gambar, artikel.created_at, judul_artikel, slug, isi_artikel, nama_user, nama_kategori')
+                ->select('id_artikel, link_gambar, artikel.created_at, judul_artikel, slug, isi_artikel, nama_user, nama_kategori, published_at')
                 ->groupStart()
                 ->like('judul_artikel', $search)
                 ->orLike('isi_artikel', $search)
                 ->orLike('nama_kategori', $search)
                 ->orLike('nama_user', $search)
                 ->groupEnd()
+                ->where('published_at', 'NOT NULL')
                 ->orderBy('id_artikel', 'DESC')
                 ->findAll();
 
@@ -35,7 +36,8 @@ class DefaultController extends BaseController
         } else {
             $result = $db->join('user', 'artikel.id_user = user.id_user')
                 ->join('kategori', 'artikel.id_kategori = kategori.id_kategori')
-                ->select('id_artikel, link_gambar, artikel.created_at, judul_artikel, slug, isi_artikel, nama_user, nama_kategori')
+                ->select('id_artikel, link_gambar, artikel.created_at, judul_artikel, slug, isi_artikel, nama_user, nama_kategori, published_at')
+                ->where('published_at IS NOT NULL')
                 ->orderBy('id_artikel', 'DESC')
                 ->findAll();
             $data = [
@@ -63,8 +65,9 @@ class DefaultController extends BaseController
         $result = $model->join('kategori', 'artikel.id_kategori = kategori.id_kategori')
             ->join('user', 'artikel.id_user = user.id_user')
             ->select('artikel.id_artikel, artikel.judul_artikel, artikel.link_gambar, user.nama_user, kategori.nama_kategori,
-                    artikel.created_at, artikel.updated_at, artikel.isi_artikel')
+                    artikel.created_at, artikel.updated_at, artikel.isi_artikel, artikel.published_at')
             ->where('slug', $slug)
+            ->where('artikel.published_at IS NOT NULL')
             ->first();
 
         if ($result == null) {

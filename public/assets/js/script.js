@@ -159,6 +159,62 @@ $(document).ready(function () {
             }
         });
     });
+
+    $('.togglepublish').click(function (e) { 
+        e.preventDefault();
+
+        var bhis = this;
+        
+        var id = $(this).data('id');
+        console.log(id);
+
+        Swal.fire({
+            title: 'Jalankan Aksi?',
+            html: '<b>PERINGATAN</b><br>' + 
+                    'Anda tidak dapat membatalkan aksi ini setelah menekan tombol <b>YA</b>',
+            icon: 'question',
+            showDenyButton: true,
+            confirmButtonText: 'Ya',
+            denyButtonText: `Batalkan`,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                //Swal.fire('Saved!', '', 'success')
+                $.ajax({
+                    type: "post",
+                    url: "/admin/ajax",
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    data: {
+                        'type': "gettogglepublish",
+                        'secret': 'usaojdn1dwq12e3',
+                        'id': id
+                    },
+                    dataType: "json",
+                    success: function (response) {
+                        Swal.fire({
+                            'title': response.judul,
+                            'icon': 'success'
+                        });
+            
+                        if(response.published){
+                            $(bhis).children('i').removeClass('fa-eye');
+                            $(bhis).children('i').addClass('fa-eye-slash');
+                            $(bhis).get(0).lastChild.nodeValue = " Batal Terbitkan"
+                        } else {
+                            $(bhis).children('i').removeClass('fa-eye-slash');
+                            $(bhis).children('i').addClass('fa-eye');
+                            $(bhis).get(0).lastChild.nodeValue = " Terbitkan";
+                        }
+                    }
+                });
+                
+            } else if (result.isDenied) {
+              Swal.fire('Aksi dibatalkan', '', 'info')
+            }
+        });
+    });
 });
 
 $(function () {

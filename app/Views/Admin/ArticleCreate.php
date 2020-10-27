@@ -70,7 +70,8 @@
             <textarea class="form-control" name="isiArtikel" id="isiArtikel" rows="8"><?= old('isiArtikel'); ?></textarea>
         </div>
         <div class="form-group text-center">
-            <button type="submit" value="SimpanBos" class="btn btn-outline-success d-inline"><i class="fa fa-floppy-o"></i> Simpan</button>
+            <button type="submit" name="SimpanBos" value="SimpanBos" class="btn btn-outline-success d-inline"><i class="fa fa-floppy-o"></i> Simpan dan Terbitkan</button>
+            <button type="submit" name="SimpanBos" value="SimpanDraf" class="btn btn-outline-success d-inline"><i class="fa fa-floppy-o"></i> Simpan ke Draf</button>
             <a href="<?= route_to('admin.artikel'); ?>" class="btn btn-outline-danger d-inline"><i class="fa fa-arrow-left"></i> Cancel</a>
         </div>
         </form>
