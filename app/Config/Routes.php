@@ -56,9 +56,9 @@ if (!env('isMaintenance')) {
 				});
 			}
 		});
+		$routes->post('ajax', 'AdminController::kelolaAJAX');
 		$routes->group('kategori', function ($routes) {
 			$routes->get('/', 'AdminController::manageKategori', ['as' => 'admin.kategori']);
-			$routes->post('ajax', 'AdminController::kelolaAJAX');
 			$routes->post('create', 'AdminController::kategoriCreateProcess', ['as' => 'admin.kategori.create.process']);
 			$routes->post('edit', 'AdminController::kategoriEditProcess', ['as' => 'admin.kategori.edit.process']);
 			$routes->post('delete', 'AdminController::kategoriDeleteProcess', ['as' => 'admin.kategori.delete.process']);
