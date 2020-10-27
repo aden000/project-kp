@@ -20,7 +20,7 @@ class Filters extends BaseConfig
 			//'honeypot'
 			'csrf' => ['except' =>
 			[
-				'admin/kategori/ajax',
+				'admin/ajax',
 				'admin/artikel/comment/ajax',
 				'admin/user/ajax'
 			]]
