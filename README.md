@@ -89,8 +89,8 @@ Additionally, make sure that the following extensions are enabled in your PHP:
 - [SweetAlert2](https://sweetalert2.github.io/)
 - [WYSIWYG TinyMCE Editor](https://www.tiny.cloud/docs/quick-start/)
 
-## Known Bugs
+## Known Confusement
 
 - Jika sudah masuk CI_ENVIRONMENT menjadi production, Seluruh Exception tidak dideteksi (termasuk Database Exception),hal ini yang menyebabkan kalau kita ingin delete kategori yang masih digunakan di artikel, kita ingin tampilin message ke pengguna, agar pengguna bisa melakukan apa yang kita sarankan di message tersebut, begitu juga delete user... masih bingung tentang sistem CodeIgniter 4
-- Update: Setelah baca baca, Another framework ex: laravel pun juga begitu, so... dijadiin development trus aja kali wkwk, 
+- ^^ Resolve, mencoba untuk membedakan berdasarkan CI_Environment, di model ada ->errors(), nanti itu yang di ambil kalau ada error di proses database, still ongoing, need testing
 
