@@ -51,7 +51,11 @@ class ArtikelMigration extends Migration
 			'deleted_at'	=> [
 				'type'				=> 'DATETIME',
 				'null'				=> true
-			]
+			],
+			'published_at'	=> [
+				'type'				=> 'DATETIME',
+				'null'				=> true
+			],
 		]);
 
 		$this->forge->addPrimaryKey('id_artikel');

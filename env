@@ -19,7 +19,7 @@
 # ubah menjadi 'development' jika project CodeIgniter 4 ini 
 #  sedang masa coding atau testing
 
-CI_ENVIRONMENT = development
+CI_ENVIRONMENT = production
 
 #--------------------------------------------------------------------
 # APP
@@ -32,7 +32,7 @@ CI_ENVIRONMENT = development
 #  *** (Requirement dari CodeIgniter 4) ***
 #  ekstensi 'intl' bisa anda lihat di konfigurasi php anda
 
-app.baseURL = 'http://localhost:8080/'
+app.baseURL = 'http://project-kp.test/'
 # app.forceGlobalSecureRequests = false
 
 # app.sessionDriver = 'CodeIgniter\Session\Handlers\FileHandler'

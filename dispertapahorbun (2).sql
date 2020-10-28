@@ -2,9 +2,9 @@
 -- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Oct 17, 2020 at 10:06 AM
--- Server version: 10.4.8-MariaDB
+-- Host: localhost
+-- Generation Time: Oct 28, 2020 at 05:29 AM
+-- Server version: 10.5.6-MariaDB-log
 -- PHP Version: 7.4.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -37,7 +37,8 @@ CREATE TABLE `artikel` (
   `id_kategori` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
-  `deleted_at` datetime DEFAULT NULL
+  `deleted_at` datetime DEFAULT NULL,
+  `published_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
