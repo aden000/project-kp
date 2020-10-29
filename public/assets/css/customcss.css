@@ -73,6 +73,7 @@ body {
     height: 120px;
     padding-top: 0px;
     object-fit: cover;
+    position: relative;
 }
 
 .copywrite {
@@ -86,6 +87,38 @@ body {
     font-weight: 400;
     font-size: 14px;
     margin-bottom: 0px;
+}
+
+.section-heading {
+    position: relative;
+    z-index: 1;
+    background-color: #fafafa;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    border-left: 3px solid #46ed39;
+}
+
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.darker {
+    filter: brightness(60%);
+}
+
+.imgcontainer {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+.top-left {
+    position: absolute;
+    top: 16px;
+    left: 16px;
 }
 
 

@@ -1,4 +1,4 @@
-<nav class="navbar sticky-top navbar-expand-sm navbar-light shadow" style="background-color: lightgreen;">
+<nav class="navbar sticky-top navbar-expand-md navbar-light shadow" style="background-color: lightgreen;">
     <a class="navbar-brand" href="<?= route_to('home'); ?>"><img style="padding-top: 0px; height: 50px;" src="<?= base_url('assets/logo.png'); ?>" alt="DISPERTAPAHORBUN"></a>
     <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars"></i></button>
     <div class="collapse navbar-collapse" id="collapsibleNavId">
@@ -12,8 +12,8 @@
             </li>
         </ul>
         <form id="searchForm" action="<?= route_to('home'); ?>" method="get">
-            <div class="form-inline my-2 my-lg-0 my-auto">
-                <div class="input-group">
+            <div class="form-inline my-auto">
+                <div class="input-group w-auto">
                     <input type="text" class="form-control" placeholder="Masukan pencarian" aria-label="Recipient's username" name="search" id="search">
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary ml-0 my-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>

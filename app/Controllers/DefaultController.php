@@ -17,14 +17,18 @@ class DefaultController extends BaseController
 
             $result = $db->join('user', 'artikel.id_user = user.id_user', 'right')
                 ->join('kategori', 'artikel.id_kategori = kategori.id_kategori', 'right')
-                ->select('id_artikel, link_gambar, artikel.created_at, judul_artikel, slug, isi_artikel, nama_user, nama_kategori, published_at')
+                ->select('id_artikel, link_gambar, artikel.created_at, judul_artikel, slug,
+                             isi_artikel, nama_user, nama_kategori, published_at, DATE_FORMAT(artikel.created_at, "%d %M %Y"), 
+                             DATE_FORMAT(artikel.updated_at, "%d %M %Y")')
                 ->groupStart()
                 ->like('judul_artikel', $search)
                 ->orLike('isi_artikel', $search)
                 ->orLike('nama_kategori', $search)
                 ->orLike('nama_user', $search)
+                ->orLike('DATE_FORMAT(artikel.created_at, "%d %M %Y")', $search)
+                ->orLike('DATE_FORMAT(artikel.updated_at, "%d %M %Y")', $search)
                 ->groupEnd()
-                ->where('published_at', 'NOT NULL')
+                ->where('published_at IS NOT NULL')
                 ->orderBy('id_artikel', 'DESC')
                 ->findAll();
 
@@ -60,15 +64,25 @@ class DefaultController extends BaseController
     {
         if ($slug == null) return redirect()->route('home');
 
-
+        $result = null;
         $model = new ArtikelModel();
-        $result = $model->join('kategori', 'artikel.id_kategori = kategori.id_kategori')
-            ->join('user', 'artikel.id_user = user.id_user')
-            ->select('artikel.id_artikel, artikel.judul_artikel, artikel.link_gambar, user.nama_user, kategori.nama_kategori,
+        $session = session();
+        if ($session->get('whoLoggedIn')) {
+            $result = $model->join('kategori', 'artikel.id_kategori = kategori.id_kategori')
+                ->join('user', 'artikel.id_user = user.id_user')
+                ->select('artikel.id_artikel, artikel.judul_artikel, artikel.link_gambar, user.nama_user, kategori.nama_kategori,
                     artikel.created_at, artikel.updated_at, artikel.isi_artikel, artikel.published_at')
-            ->where('slug', $slug)
-            ->where('artikel.published_at IS NOT NULL')
-            ->first();
+                ->where('slug', $slug)
+                ->first();
+        } else {
+            $result = $model->join('kategori', 'artikel.id_kategori = kategori.id_kategori')
+                ->join('user', 'artikel.id_user = user.id_user')
+                ->select('artikel.id_artikel, artikel.judul_artikel, artikel.link_gambar, user.nama_user, kategori.nama_kategori,
+                        artikel.created_at, artikel.updated_at, artikel.isi_artikel, artikel.published_at')
+                ->where('slug', $slug)
+                ->where('artikel.published_at IS NOT NULL')
+                ->first();
+        }
 
         if ($result == null) {
             throw new PageNotFoundException("Article not available");
@@ -77,9 +91,32 @@ class DefaultController extends BaseController
         $data = [
             'judul' => $result['judul_artikel'] . " | DISPERTAPAHORBUN",
             'detail' => $result,
-            'komentar' => env('enableComment') ? $this->treeCommentBuilder($slug) : ''
+            'komentar' => env('enableComment') ? $this->treeCommentBuilder($slug) : '',
+            'rekom_artikel' => $this->makeRecommendArticle($result['id_artikel'])
         ];
         return view('Default/Detail', $data);
+    }
+
+    private function makeRecommendArticle($id)
+    {
+        $html = "";
+        $aModel = new ArtikelModel();
+        $result = $aModel->join('user', 'artikel.id_user = user.id_user', 'right')
+            ->join('kategori', 'artikel.id_kategori = kategori.id_kategori', 'right')
+            ->select('id_artikel, link_gambar, artikel.created_at, judul_artikel, slug,
+                     isi_artikel, nama_user, nama_kategori, published_at')
+            ->where('published_at IS NOT NULL')
+            ->where('id_artikel NOT IN (' . $id . ')')
+            ->orderBy(5, 'RANDOM')
+            ->findAll();
+        if (isset($result)) {
+            foreach ($result as $r) {
+                $html .= view('Default\Card\CardArticleRecommendation', compact('r'));
+            }
+        } else {
+            $html .= "No article recommendation...";
+        }
+        return $html;
     }
 
     /**
