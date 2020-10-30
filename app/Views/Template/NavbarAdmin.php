@@ -27,9 +27,7 @@ $a = $a->find(session()->get('whoLoggedIn'));  ?>
                     <i class="fa fa-user"></i> <?= $a['nama_user']; ?>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="triggerId">
-                    <?php if ($a['role'] == 0) : ?>
-                        <a class="dropdown-item" href="<?= route_to('admin.user.manage'); ?>">Manage User</a>
-                    <?php endif; ?>
+                    <a class="dropdown-item" href="<?= route_to('home'); ?>">Halaman Utama</a>
                     <!-- <a class="dropdown-item" href="#">Ganti Password</a> -->
                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#gantiPass">
                         Ganti Password

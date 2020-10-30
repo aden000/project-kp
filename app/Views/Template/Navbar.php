@@ -11,21 +11,66 @@
                 <a class="nav-link" href="<?= route_to('about'); ?>">Tentang</a>
             </li>
         </ul>
-        <form id="searchForm" action="<?= route_to('home'); ?>" method="get">
-            <div class="form-inline my-auto">
-                <div class="input-group w-auto">
-                    <input type="text" class="form-control" placeholder="Masukan pencarian" aria-label="Recipient's username" name="search" id="search">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary ml-0 my-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+        <div class="my-auto">
+            <?php if (session('whoLoggedIn')) { ?>
+                <div class="dropdown">
+                    <button class="btn btn-outline-success dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-user"></i> <?= $a['nama_user']; ?>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="triggerId">
+                        <a class="dropdown-item" href="<?= route_to('admin.artikel'); ?>">Dashboard Admin</a>
+                        <!-- <a class="dropdown-item" href="#">Ganti Password</a> -->
+                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#gantiPass">
+                            Ganti Password
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <form action="<?= route_to('admin.logout.process'); ?>" method="post">
+                            <?= csrf_field(); ?>
+                            <button type="submit" name="logoutPlease" class="dropdown-item" value="Logout"><i class="fa fa-sign-out"></i> Logout</button>
+                        </form>
                     </div>
                 </div>
-                <?php if (session('whoLoggedIn')) { ?>
-                    <a href="<?= route_to('admin.artikel'); ?>" class="btn btn-outline-success ml-auto my-sm-0">Dashboard</a>
-                <?php } else { ?>
-                    <button type="button" class="btn btn-outline-success ml-auto my-sm-0" data-toggle="modal" data-target="#modalLoginId"><i class="fa fa-sign-in"></i> Login</button>
-                <?php } ?>
-            </div>
-        </form>
-
+            <?php } else { ?>
+                <button type="button" class="btn btn-outline-success ml-auto my-sm-0" data-toggle="modal" data-target="#modalLoginId"><i class="fa fa-sign-in"></i> Login</button>
+            <?php } ?>
+        </div>
     </div>
 </nav>
+<?php if (session('whoLoggedIn')) { ?>
+    <div class="modal fade" id="gantiPass" tabindex="-1" role="dialog" aria-labelledby="modelGantiPass" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ganti Password</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="<?= route_to('admin.user.changepass'); ?>" method="post">
+                    <?= csrf_field(); ?>
+                    <div class="modal-body">
+                        <?php if ($a['role'] == 1) : ?>
+                            <a role="button" data-container="body" data-toggle="popover" title="Mengenai Lupa Password" data-content="Harap hubungi Admin untuk mereset password anda" data-placement="right" data-trigger="focus" href="#" tabindex="0">Lupa password?</a>
+                        <?php endif; ?>
+                        <div class="form-group">
+                            <label for="curpass">Password saat ini</label>
+                            <input type="password" class="form-control" name="curpass" id="curpass" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="newpass">Password baru</label>
+                            <input type="password" class="form-control" name="newpass" id="newpass" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="newpassconfirm">Ulangi password baru</label>
+                            <input type="password" class="form-control" name="newpassconfirm" id="newpassconfirm" placeholder="">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i> Batal</button>
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan dan Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<?php } ?>

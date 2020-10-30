@@ -41,13 +41,22 @@
     <div class="col-lg-4 pl-lg-4 mt-2 mt-lg-0">
         <div class="row section-heading">
             <hgroup>
-                <h5>Made by love with <b>CodeIgniter 4</b></h5>
+                <h5>Made with love using <b>CodeIgniter 4</b></h5>
                 <h6>Kelompok Kerja Praktek</h6>
             </hgroup>
-            <ul>
-                <li>Aditiya Gusti Apriliansyah | 06.2017.1.06732</li>
-                <li>M. Yusuf Eka Saputra | 06.2017.1.06733</li>
-                <li>Achmad Ade Nugroho | 06.2017.1.06740</li>
+            <ul class="list-group">
+                <a class="list-group-item" href="https://github.com/aditiya98" style="color: inherit; text-decoration: none;">
+                    <img src="https://github.com/aditiya98.png" alt="@aditiya98" width="32" height="32" class="rounded mr-2" loading="lazy">
+                    Aditiya Gusti Apriliansyah | 06.2017.1.06732
+                </a>
+                <a class="list-group-item" href="https://github.com/AnEmotionless" style="color: inherit; text-decoration: none;">
+                    <img src="https://github.com/AnEmotionless.png" alt="@AnEmotionless" width="32" height="32" class="rounded mr-2" loading="lazy">
+                    M. Yusuf Eka Saputra | 06.2017.1.06733
+                </a>
+                <a class="list-group-item" href="https://github.com/aden000/" style="color: inherit; text-decoration: none;">
+                    <img src="https://github.com/aden000.png" alt="@aden000" width="32" height="32" class="rounded mr-2" loading="lazy">
+                    Achmad Ade Nugroho | 06.2017.1.06740
+                </a>
             </ul>
         </div>
         <!-- <div class="row shadow-sm border border-dark" style="background-color: #fff; height:fit-content; padding:10px;">

@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\ArtikelModel;
 use App\Models\KomentarModel;
+use App\Models\UserModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use Config\Database;
 
@@ -13,6 +14,8 @@ class DefaultController extends BaseController
     {
         $search = $this->request->getVar("search");
         $db = new ArtikelModel();
+        $a = new UserModel();
+        if (session()->get('whoLoggedIn')) $a = $a->find(session()->get('whoLoggedIn'));
         if (!is_null($search)) {
 
             $result = $db->join('user', 'artikel.id_user = user.id_user', 'right')
@@ -34,7 +37,8 @@ class DefaultController extends BaseController
 
             $data = [
                 'judul' => "Home | Pencarian $search | DISPERTAPAHORBUN",
-                'artikel' => $result
+                'artikel' => $result,
+                'a' => $a
             ];
             return view('Default/Index', $data);
         } else {
@@ -46,7 +50,8 @@ class DefaultController extends BaseController
                 ->findAll();
             $data = [
                 'judul' => 'Home | DISPERTAPAHORBUN',
-                'artikel' => $result
+                'artikel' => $result,
+                'a' => $a
             ];
             return view('Default/Index', $data);
         }
@@ -54,8 +59,11 @@ class DefaultController extends BaseController
 
     public function about()
     {
+        $a = new UserModel();
+        if (session()->get('whoLoggedIn')) $a = $a->find(session()->get('whoLoggedIn'));
         $data = [
-            'judul' => 'Tentang | DISPERTAPAHORBUN'
+            'judul' => 'Tentang | DISPERTAPAHORBUN',
+            'a' => $a
         ];
         return view('Default/About', $data);
     }
@@ -66,6 +74,8 @@ class DefaultController extends BaseController
 
         $result = null;
         $model = new ArtikelModel();
+        $a = new UserModel();
+        if (session()->get('whoLoggedIn')) $a = $a->find(session()->get('whoLoggedIn'));
         $session = session();
         if ($session->get('whoLoggedIn')) {
             $result = $model->join('kategori', 'artikel.id_kategori = kategori.id_kategori')
@@ -92,7 +102,8 @@ class DefaultController extends BaseController
             'judul' => $result['judul_artikel'] . " | DISPERTAPAHORBUN",
             'detail' => $result,
             'komentar' => env('enableComment') ? $this->treeCommentBuilder($slug) : '',
-            'rekom_artikel' => $this->makeRecommendArticle($result['id_artikel'])
+            'rekom_artikel' => $this->makeRecommendArticle($result['id_artikel']),
+            'a' => $a
         ];
         return view('Default/Detail', $data);
     }
@@ -107,14 +118,17 @@ class DefaultController extends BaseController
                      isi_artikel, nama_user, nama_kategori, published_at')
             ->where('published_at IS NOT NULL')
             ->where('id_artikel NOT IN (' . $id . ')')
-            ->orderBy(5, 'RANDOM')
-            ->findAll();
-        if (isset($result)) {
+            ->orderBy('id_artikel', 'RANDOM')
+            ->limit(5)
+            ->find();
+        if (!empty($result)) {
             foreach ($result as $r) {
                 $html .= view('Default\Card\CardArticleRecommendation', compact('r'));
             }
         } else {
+            $html .= '<div class="row border border-dark shadow-sm m-lg-2 p-2" style="margin-bottom: 10px; height:auto; background-color: #fff;">';
             $html .= "No article recommendation...";
+            $html .= '</div>';
         }
         return $html;
     }

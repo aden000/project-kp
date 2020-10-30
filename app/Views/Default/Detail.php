@@ -9,20 +9,27 @@ use CodeIgniter\I18n\Time; ?>
 <?php if (session('message')) { ?>
     <div class="flash-data" data-judul="<?= session('message')['judul']; ?>" data-msg="<?= session('message')['msg']; ?>" data-role="<?= session('message')['role']; ?>"></div>
 <?php } ?>
-<div class="imgcontainer">
-    <img class="darker" src="<?php echo base_url('assets/artikel/img/' . $detail['id_artikel'] . '/' . $detail['link_gambar']); ?>" alt="Snow" style="width:100%; max-height: 700px;">
-    <div class="top-left">
-        <a href="<?= route_to('home'); ?>" class="btn btn-light"><i class="fa fa-arrow-left"></i> Kembali ke Home</a>
-    </div>
-    <div class="centered">
-        <H2><?= $detail['judul_artikel']; ?></H2>
-        <cite><small> Post: <?= Time::parse($detail['created_at'])->toLocalizedString('d MMMM yyyy'); ?> | Last update: <?= Time::parse($detail['updated_at'])->toLocalizedString('d MMMM yyyy'); ?> | Kategori: <?= $detail['nama_kategori']; ?> | By: <?= $detail['nama_user']; ?> </small></cite>
-    </div>
-</div>
 <div class="container">
     <div class="row">
+        <div class="imgcontainer">
+            <img class="darker" src="<?php echo base_url('assets/artikel/img/' . $detail['id_artikel'] . '/' . $detail['link_gambar']); ?>" alt="Snow" style="width:100%; max-height: 700px;">
+            <div class="top-left">
+                <a href="<?= route_to('home'); ?>" class="btn btn-light"><i class="fa fa-arrow-left"></i> Kembali ke Home</a>
+            </div>
+            <?php if (session()->get('whoLoggedIn')) : ?>
+                <div class="top-right">
+                    <a href="<?= route_to('admin.artikel.edit', $detail['id_artikel']); ?>" class="btn btn-light"><i class="fa fa-pencil"></i> Edit Artikel</a>
+                </div>
+            <?php endif; ?>
+            <div class="centered">
+                <H2><?= $detail['judul_artikel']; ?></H2>
+                <cite><small> Post: <?= Time::parse($detail['created_at'])->toLocalizedString('d MMMM yyyy'); ?> | Last update: <?= Time::parse($detail['updated_at'])->toLocalizedString('d MMMM yyyy'); ?> | Kategori: <?= $detail['nama_kategori']; ?> | By: <?= $detail['nama_user']; ?> </small></cite>
+            </div>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-lg-9" style="background-color: #fff;">
-            <p>
+            <p class="w-100 d-block">
                 <?= $detail['isi_artikel']; ?>
             </p>
             <hr>
