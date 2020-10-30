@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 28, 2020 at 05:29 AM
+-- Generation Time: Oct 30, 2020 at 01:33 AM
 -- Server version: 10.5.6-MariaDB-log
 -- PHP Version: 7.4.11
 
@@ -30,8 +30,8 @@ SET time_zone = "+00:00";
 CREATE TABLE `artikel` (
   `id_artikel` int(11) NOT NULL,
   `id_user` int(11) DEFAULT NULL,
-  `judul_artikel` varchar(50) DEFAULT NULL,
-  `slug` varchar(100) DEFAULT NULL,
+  `judul_artikel` varchar(255) DEFAULT NULL,
+  `slug` varchar(255) DEFAULT NULL,
   `link_gambar` varchar(50) DEFAULT NULL,
   `isi_artikel` mediumtext DEFAULT NULL,
   `id_kategori` int(11) DEFAULT NULL,

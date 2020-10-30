@@ -22,11 +22,11 @@ class ArtikelMigration extends Migration
 			],
 			'judul_artikel' => [
 				'type'				=> 'VARCHAR',
-				'constraint'		=> 50,
+				'constraint'		=> 255,
 			],
 			'slug' => [
 				'type'				=> 'VARCHAR',
-				'constraint'		=> 100,
+				'constraint'		=> 255,
 			],
 			'link_gambar' => [
 				'type'				=> 'VARCHAR',
