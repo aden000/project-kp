@@ -10,25 +10,23 @@ use CodeIgniter\I18n\Time; ?>
     <div class="flash-data" data-judul="<?= session('message')['judul']; ?>" data-msg="<?= session('message')['msg']; ?>" data-role="<?= session('message')['role']; ?>"></div>
 <?php } ?>
 <div class="container">
-    <div class="row">
-        <div class="imgcontainer">
-            <img class="darker" src="<?php echo base_url('assets/artikel/img/' . $detail['id_artikel'] . '/' . $detail['link_gambar']); ?>" alt="Snow" style="width:100%; max-height: 700px;">
-            <div class="top-left">
-                <a href="<?= route_to('home'); ?>" class="btn btn-light"><i class="fa fa-arrow-left"></i> Kembali ke Home</a>
-            </div>
-            <?php if (session()->get('whoLoggedIn')) : ?>
-                <div class="top-right">
-                    <a href="<?= route_to('admin.artikel.edit', $detail['id_artikel']); ?>" class="btn btn-light"><i class="fa fa-pencil"></i> Edit Artikel</a>
-                </div>
-            <?php endif; ?>
-            <div class="centered">
-                <H2><?= $detail['judul_artikel']; ?></H2>
-                <cite><small> Post: <?= Time::parse($detail['created_at'])->toLocalizedString('d MMMM yyyy'); ?> | Last update: <?= Time::parse($detail['updated_at'])->toLocalizedString('d MMMM yyyy'); ?> | Kategori: <?= $detail['nama_kategori']; ?> | By: <?= $detail['nama_user']; ?> </small></cite>
-            </div>
-        </div>
-    </div>
-    <div class="row">
+    <div class="row  mt-lg-3">
         <div class="col-lg-9" style="background-color: #fff;">
+            <div class="imgcontainer">
+                <img class="darker img-fluid" src="<?php echo base_url('assets/artikel/img/' . $detail['id_artikel'] . '/' . $detail['link_gambar']); ?>" alt="Snow">
+                <div class="top-left">
+                    <a href="<?= route_to('home'); ?>" title="Kembali ke Home" class="btn btn-light"><i class="fa fa-home"></i></a>
+                </div>
+                <?php if (session()->get('whoLoggedIn')) : ?>
+                    <div class="top-right">
+                        <a href="<?= route_to('admin.artikel.edit', $detail['id_artikel']); ?>" class="btn btn-light" title="Edit Artikel"><i class="fa fa-pencil"></i></a>
+                    </div>
+                <?php endif; ?>
+                <div class="centered">
+                    <H2 style="font-size: 4vmin;"><?= $detail['judul_artikel']; ?></H2>
+                    <cite><small style="font-size: 2vmin;"> Post: <?= Time::parse($detail['created_at'])->toLocalizedString('d MMMM yyyy'); ?> | Last update: <?= Time::parse($detail['updated_at'])->toLocalizedString('d MMMM yyyy'); ?> | Kategori: <?= $detail['nama_kategori']; ?> | By: <?= $detail['nama_user']; ?> </small></cite>
+                </div>
+            </div>
             <p class="w-100 d-block">
                 <?= $detail['isi_artikel']; ?>
             </p>
@@ -88,7 +86,7 @@ use CodeIgniter\I18n\Time; ?>
                 </div>
             <?php endif; ?>
         </div>
-        <div class="col-lg-3">
+        <div class="col-lg-3 pt-lg-3" style="background-color: #fff; border-left: 3px solid #f8f8f8;">
             <div class="row section-heading m-lg-2">
                 <h5>Lihat Artikel Lainnya</h5>
             </div>
