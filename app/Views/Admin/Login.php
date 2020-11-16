@@ -1,6 +1,9 @@
 <?= $this->extend('Template/Template'); ?>
 
 <?= $this->section('content'); ?>
+<?php if (session('message')) : ?>
+    <div class="flash-data" data-judul="<?= session('message')['judul']; ?>" data-msg="<?= session('message')['msg']; ?>" data-role="<?= session('message')['role']; ?>"></div>
+<?php endif; ?>
 <div class="container">
     <div class="row">
       <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
