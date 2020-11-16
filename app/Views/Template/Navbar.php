@@ -30,8 +30,6 @@
                         </form>
                     </div>
                 </div>
-            <?php } else { ?>
-                <button type="button" class="btn btn-outline-success ml-auto my-sm-0" data-toggle="modal" data-target="#modalLoginId"><i class="fa fa-sign-in"></i> Login</button>
             <?php } ?>
         </div>
     </div>

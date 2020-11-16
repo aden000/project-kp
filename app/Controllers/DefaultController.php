@@ -33,11 +33,12 @@ class DefaultController extends BaseController
                 ->groupEnd()
                 ->where('published_at IS NOT NULL')
                 ->orderBy('id_artikel', 'DESC')
-                ->findAll();
+                ->paginate(2, 'bootstrap');
 
             $data = [
                 'judul' => "Home | Pencarian $search | DISPERTAPAHORBUN",
                 'artikel' => $result,
+                'pager' => $db->pager,
                 'a' => $a
             ];
             return view('Default/Index', $data);
@@ -47,10 +48,11 @@ class DefaultController extends BaseController
                 ->select('id_artikel, link_gambar, artikel.created_at, judul_artikel, slug, isi_artikel, nama_user, nama_kategori, published_at')
                 ->where('published_at IS NOT NULL')
                 ->orderBy('id_artikel', 'DESC')
-                ->findAll();
+                ->paginate(2, 'bootstrap');
             $data = [
                 'judul' => 'Home | DISPERTAPAHORBUN',
                 'artikel' => $result,
+                'pager' => $db->pager,
                 'a' => $a
             ];
             return view('Default/Index', $data);

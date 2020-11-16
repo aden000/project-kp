@@ -39,6 +39,7 @@ if (!env('isMaintenance')) {
 	//$routes->get('debug/(:segment)', "AdminController::getEncrypted/$1");
 
 	$routes->group('admin', function ($routes) {
+		$routes->get('/', 'AdminController::showLogin', ['as' => 'admin.login']);
 		$routes->post('login', 'AdminController::loginProcess', ['as' => 'admin.login.process']);
 		$routes->post('logout', 'AdminController::logoutProcess', ['as' => 'admin.logout.process']);
 		$routes->group('artikel', function ($routes) {

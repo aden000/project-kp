@@ -19,7 +19,7 @@
 # ubah menjadi 'development' jika project CodeIgniter 4 ini 
 #  sedang masa coding atau testing
 
-CI_ENVIRONMENT = production
+CI_ENVIRONMENT = development
 
 #--------------------------------------------------------------------
 # APP

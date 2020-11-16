@@ -27,6 +27,14 @@ class AdminController extends BaseController
         // echo hex2bin(bin2hex(\CodeIgniter\Encryption\Encryption::createKey(32)));
     }
 
+    public function showLogin()
+    {
+        $data = [
+            'judul' => "Login | DISPERTAPAHORBUN"
+        ];
+        return view('Admin/Login', $data);
+    }
+
     public function loginProcess()
     {
         if ($this->request->getPost('loginPlease')) {
@@ -42,17 +50,19 @@ class AdminController extends BaseController
                 $session = session();
                 $session->set('whoLoggedIn', $result['id_user']);
                 $session->markAsTempdata('whoLoggedIn', 7200);
-                return redirect()->back(301)->with('message', [
-                    'judul' => 'Selamat Datang',
-                    'msg' => 'Selamat datang ' . $result['nama_user'] . ' Telah login',
-                    'role' => 'success'
-                ]);
+                return redirect()->route('admin.artikel');
+                // return redirect()->back(301)->with('message', [
+                //     'judul' => 'Selamat Datang',
+                //     'msg' => 'Selamat datang ' . $result['nama_user'] . ' Telah login',
+                //     'role' => 'success'
+                // ]);
             } else
-                return redirect()->back()->with('message', [
-                    'judul' => 'Terjadi Kesalahan',
-                    'msg' => 'Username atau Password tidak ditemukan!',
-                    'role' => 'error'
-                ]);
+                return redirect('admin.login');
+                // return redirect()->back()->with('message', [
+                //     'judul' => 'Terjadi Kesalahan',
+                //     'msg' => 'Username atau Password tidak ditemukan!',
+                //     'role' => 'error'
+                // ]);
         }
     }
 
