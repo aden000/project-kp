@@ -6,38 +6,39 @@
 use CodeIgniter\I18n\Time; ?>
 
 <div class="container">
-    <div class="row mx-4" style="padding-top: 20px; margin-bottom: 5px;">
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-    <ol class="carousel-indicators">
-        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-    </ol>
-    <div class="carousel-inner" style=" width:100%; height: 500px !important;">
-        <div class="carousel-item active">
-            <img class="d-block w-100" src="/assets/img/slide/slide1.jpg" alt="First slide">
-            <div class="carousel-caption d-none d-md-block">
-                <h5>...</h5>
-                <p>...</p>
+    <?php if (!empty($galeri)) : ?>
+        <div class="row mx-4" style="margin-bottom: 5px;">
+            <div id="carouselGaleriDispertapaHorbun" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <?php $no = 0;
+                    foreach ($galeri as $g) : ?>
+                        <li data-target="#carouselGaleriDispertapaHorbun" data-slide-to="<?= $no; ?>" <?= $no == 0 ? 'class="active"' : ''; ?>></li>
+                    <?php $no++;
+                    endforeach; ?>
+                </ol>
+                <div class="carousel-inner text-center" style=" width:100%; height: auto !important;">
+                    <?php $no = 1;
+                    foreach ($galeri as $g) : ?>
+                        <div class="carousel-item imgcontainer <?= $no == 1 ? "active" : ""; ?>">
+                            <img class="darker d-block w-100" src="<?= base_url('assets/img/slide') . '/' . $g['nama_gambar']; ?>" alt="slide <?= $no; ?>">
+                            <div class="centered">
+                                <h2 style="font-size: 4vmin;"><?= $greetings; ?></h2>
+                            </div>
+                        </div>
+                    <?php $no++;
+                    endforeach; ?>
+                </div>
+                <a class="carousel-control-prev" href="#carouselGaleriDispertapaHorbun" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselGaleriDispertapaHorbun" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
             </div>
         </div>
-        <div class="carousel-item">
-        <img class="d-block w-100" src="/assets/img/slide/slide2.jpg" alt="Second slide">
-        </div>
-        <div class="carousel-item">
-        <img class="d-block w-100" src="/assets/img/slide/slide3.jpg" alt="Third slide">
-        </div>
-    </div>
-    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
-    </div>
-    </div>
+    <?php endif; ?>
     <div class="row mx-4" style="padding-top: 20px; margin-bottom: 10px;">
         <div class="col">
             <?php if (session('message')) { ?>

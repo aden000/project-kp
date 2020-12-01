@@ -175,7 +175,7 @@ $(document).ready(function () {
             icon: 'question',
             showDenyButton: true,
             confirmButtonText: 'Ya',
-            denyButtonText: `Batalkan`,
+            denyButtonText: `Tidak`,
         }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {

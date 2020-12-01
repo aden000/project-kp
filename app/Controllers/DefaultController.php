@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\ArtikelModel;
+use App\Models\GaleriModel;
 use App\Models\KomentarModel;
 use App\Models\UserModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
@@ -15,6 +16,9 @@ class DefaultController extends BaseController
         $search = $this->request->getVar("search");
         $db = new ArtikelModel();
         $a = new UserModel();
+        $g = new GaleriModel();
+        $g = $g->findAll();
+        $greetings = env('kataPenyambutan');
         if (session()->get('whoLoggedIn')) $a = $a->find(session()->get('whoLoggedIn'));
         if (!is_null($search)) {
 
@@ -33,13 +37,15 @@ class DefaultController extends BaseController
                 ->groupEnd()
                 ->where('published_at IS NOT NULL')
                 ->orderBy('id_artikel', 'DESC')
-                ->paginate(2, 'bootstrap');
+                ->paginate(env('limitShowArtikel', 5), 'bootstrap');
 
             $data = [
                 'judul' => "Home | Pencarian $search | DISPERTAPAHORBUN",
                 'artikel' => $result,
                 'pager' => $db->pager,
-                'a' => $a
+                'a' => $a,
+                'galeri' => $g,
+                'greetings' => $greetings
             ];
             return view('Default/Index', $data);
         } else {
@@ -48,12 +54,14 @@ class DefaultController extends BaseController
                 ->select('id_artikel, link_gambar, artikel.created_at, judul_artikel, slug, isi_artikel, nama_user, nama_kategori, published_at')
                 ->where('published_at IS NOT NULL')
                 ->orderBy('id_artikel', 'DESC')
-                ->paginate(2, 'bootstrap');
+                ->paginate(env('limitShowArtikel', 5), 'bootstrap');
             $data = [
                 'judul' => 'Home | DISPERTAPAHORBUN',
                 'artikel' => $result,
                 'pager' => $db->pager,
-                'a' => $a
+                'a' => $a,
+                'galeri' => $g,
+                'greetings' => $greetings
             ];
             return view('Default/Index', $data);
         }

@@ -19,6 +19,9 @@ $a = $a->find(session()->get('whoLoggedIn'));  ?>
                 <li class="nav-item <?= $uri->getSegment(2) == 'user' ? 'active' : ''; ?>">
                     <a class="nav-link" href="<?= route_to('admin.user.manage'); ?>">Manage User</a>
                 </li>
+                <li class="nav-item <?= $uri->getSegment(2) == 'galeri' ? 'active' : ''; ?>">
+                    <a class="nav-link" href="<?= route_to('admin.galeri.manage'); ?>">Manage Galeri</a>
+                </li>
             <?php endif; ?>
         </ul>
         <nav class="my-2 my-lg-0">

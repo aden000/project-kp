@@ -72,6 +72,11 @@ if (!env('isMaintenance')) {
 			$routes->post('delete', 'UserController::deleteUser', ['as' => 'admin.user.delete']);
 			$routes->post('ajax', 'UserController::kelolaAJAX');
 		});
+		$routes->group('galeri', function ($routes) {
+			$routes->get('/', 'GaleriController::manageGaleri', ['as' => 'admin.galeri.manage']);
+			$routes->post('add', 'GaleriController::addGaleriProcess', ['as' => 'admin.galeri.add.process']);
+			$routes->post('delete', 'GaleriController::deleteGaleriProcess', ['as' => 'admin.galeri.delete.process']);
+		});
 	});
 } else {
 	$routes->get('/', 'MaintenanceController::index');

@@ -32,7 +32,8 @@ class AdminController extends BaseController
         $data = [
             'judul' => "Login | DISPERTAPAHORBUN"
         ];
-        return view('Admin/Login', $data);
+        if (session()->get('whoLoggedIn')) return redirect()->route('admin.artikel');
+        else return view('Admin/Login', $data);
     }
 
     public function loginProcess()

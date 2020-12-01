@@ -6,7 +6,7 @@
     <div class="col shadow-sm border border-dark pt-3">
 
         <div class="row">
-            <div class="col-1">
+            <div class="col-auto">
                 <a href="<?= route_to('admin.artikel'); ?>" class="btn btn-outline-secondary"><i class="fa fa-arrow-left"></i></a>
             </div>
             <div class="col-11">
