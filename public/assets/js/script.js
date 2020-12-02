@@ -3,7 +3,7 @@ $(document).ready(function () {
         var idk = $(this).data("id")
         $.ajax({
             type: "post",
-            url: "/admin/kategori/ajax",
+            url: "/admin/ajax",
             headers: {
                 'X-Requested-With': 'XMLHttpRequest'
             },
@@ -23,7 +23,7 @@ $(document).ready(function () {
         var idk = $(this).data("id")
         $.ajax({
             type: "post",
-            url: "/admin/kategori/ajax",
+            url: "/admin/ajax",
             headers: {
                 'X-Requested-With': 'XMLHttpRequest'
             },
