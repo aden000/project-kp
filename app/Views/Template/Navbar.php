@@ -18,7 +18,7 @@
                         <i class="fa fa-user"></i> <?= $a['nama_user']; ?>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="triggerId">
-                        <a class="dropdown-item" href="<?= route_to('admin.artikel'); ?>">Dashboard Admin</a>
+                        <a class="dropdown-item" href="<?= route_to('admin.dashboard'); ?>">Dashboard Admin</a>
                         <!-- <a class="dropdown-item" href="#">Ganti Password</a> -->
                         <a class="dropdown-item" href="#" data-toggle="modal" data-target="#gantiPass">
                             Ganti Password

@@ -77,6 +77,7 @@ if (!env('isMaintenance')) {
 			$routes->post('add', 'GaleriController::addGaleriProcess', ['as' => 'admin.galeri.add.process']);
 			$routes->post('delete', 'GaleriController::deleteGaleriProcess', ['as' => 'admin.galeri.delete.process']);
 		});
+		$routes->get('dashboard', 'AdminController::showDashboard', ['as' => 'admin.dashboard']);
 	});
 } else {
 	$routes->get('/', 'MaintenanceController::index');

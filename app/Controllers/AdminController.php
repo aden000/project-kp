@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\ArtikelModel;
+use App\Models\GaleriModel;
 use App\Models\KategoriModel;
 use App\Models\UserModel;
 use CodeIgniter\Config\DotEnv;
@@ -14,18 +15,18 @@ use Exception;
 
 class AdminController extends BaseController
 {
-    public function getEncrypted($val)
-    {
-        $user = new UserModel();
-        $user->update(1, [
-            'password' => password_hash($val, PASSWORD_BCRYPT)
-        ]);
-        echo "complete(?)";
+    // public function getEncrypted($val)
+    // {
+    //     $user = new UserModel();
+    //     $user->update(1, [
+    //         'password' => password_hash($val, PASSWORD_BCRYPT)
+    //     ]);
+    //     echo "complete(?)";
 
-        // echo bin2hex(\CodeIgniter\Encryption\Encryption::createKey(32));
-        // echo "<br>";
-        // echo hex2bin(bin2hex(\CodeIgniter\Encryption\Encryption::createKey(32)));
-    }
+    //     // echo bin2hex(\CodeIgniter\Encryption\Encryption::createKey(32));
+    //     // echo "<br>";
+    //     // echo hex2bin(bin2hex(\CodeIgniter\Encryption\Encryption::createKey(32)));
+    // }
 
     public function showLogin()
     {
@@ -51,7 +52,7 @@ class AdminController extends BaseController
                 $session = session();
                 $session->set('whoLoggedIn', $result['id_user']);
                 $session->markAsTempdata('whoLoggedIn', 7200);
-                return redirect()->route('admin.artikel')->with('message', [
+                return redirect()->route('admin.dashboard')->with('message', [
                     'judul' => 'Selamat Datang',
                     'msg' => 'Selamat datang ' . $result['nama_user'] . ' Telah login',
                     'role' => 'success'
@@ -74,6 +75,43 @@ class AdminController extends BaseController
                 'judul' => 'Telah Logout',
                 'msg' => 'Anda telah berhasil logout',
                 'role' => 'success'
+            ]);
+        } else {
+            return redirect()->route('home');
+        }
+    }
+
+    public function showDashboard()
+    {
+        if (session()->get('whoLoggedIn')) {
+            $users = new UserModel();
+            $user = $users->find(session()->get('whoLoggedIn'));
+
+            $Artikel = new ArtikelModel();
+            $allArtikel = $Artikel->findAll();
+
+            $Kategori = new KategoriModel();
+            $allKategori = $Kategori->findAll();
+
+            $Galeri = new GaleriModel();
+            $allGaleri = $Galeri->findAll();
+
+            $totalUser = $users->findAll();
+            $fullAccessUser = $users->where('role', '0')->findAll();
+            $postOnlyUser = $users->where('role', '1')->findAll();
+
+            $pubArtikel = $Artikel->where('published_at IS NOT NULL')->findAll();
+
+            return view('Admin/Dashboard', [
+                'judul' => 'Dashboard | DISPERTAPAHORBUN',
+                'user' => $user,
+                'allArtikel' => $allArtikel,
+                'pubArtikel' => $pubArtikel,
+                'allKategori' => $allKategori,
+                'allGaleri' => $allGaleri,
+                'fullAccessUser' => $fullAccessUser,
+                'postOnlyUser' => $postOnlyUser,
+                'totalUser' => $totalUser
             ]);
         } else {
             return redirect()->route('home');
