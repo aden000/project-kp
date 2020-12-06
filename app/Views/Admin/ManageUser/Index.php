@@ -27,7 +27,19 @@
                         <td style="vertical-align: middle;"><?= $no++; ?></td>
                         <td style="vertical-align: middle;"><?= $u['username']; ?></td>
                         <td style="vertical-align: middle;"><?= $u['nama_user']; ?></td>
-                        <td style="vertical-align: middle;"><?= $u['role'] == 0 ? 'Full Akses' : 'Hanya Posting'; ?></td>
+                        <td style="vertical-align: middle;">
+                            <?php
+                                if ($u['role'] == 0) {
+                                    echo 'Full Akses';
+                                }
+                                elseif ($u['role'] == 1) {
+                                    echo 'Hanya Posting';
+                                }
+                                elseif ($u['role'] == 2) {
+                                    echo 'Hanya Dokumen';
+                                }
+                            ?>
+                        </td>
                         <td style="vertical-align: middle;">
                             <button type="button" class="btn btn-outline-info btnUserEdit" title="Edit User" data-toggle="modal" data-id="<?= $u['id_user']; ?>" data-target="#modelEditUser"><i class="fa fa-pencil"></i></button> |
                             <?php if ($u['id_user'] != session()->get('whoLoggedIn')) : ?>
@@ -73,6 +85,7 @@
                                     <option selected>Silahkan Pilih</option>
                                     <option value="0">Full Akses</option>
                                     <option value="1">Hanya Posting</option>
+                                    <option value="2">Hanya Dokumen</option>
                                 </select>
                             </div>
                         </div>
@@ -121,6 +134,7 @@
                                     <option>Silahkan Pilih</option>
                                     <option value="0">Full Akses</option>
                                     <option value="1">Hanya Posting</option>
+                                    <option value="2">Hanya Dokumen</option>
                                 </select>
                             </div>
                         </div>

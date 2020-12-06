@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\ArtikelModel;
 use App\Models\GaleriModel;
 use App\Models\KategoriModel;
+use App\Models\DokumenModel;
 use App\Models\UserModel;
 use CodeIgniter\Config\DotEnv;
 use CodeIgniter\Database\Exceptions\DatabaseException;
@@ -96,9 +97,13 @@ class AdminController extends BaseController
             $Galeri = new GaleriModel();
             $allGaleri = $Galeri->findAll();
 
+            $Dokumen = new DokumenModel();
+            $allDokumen = $Dokumen->findAll();
+
             $totalUser = $users->findAll();
             $fullAccessUser = $users->where('role', '0')->findAll();
             $postOnlyUser = $users->where('role', '1')->findAll();
+            $docOnlyUser = $users->where('role', '2')->findAll();
 
             $pubArtikel = $Artikel->where('published_at IS NOT NULL')->findAll();
 
@@ -109,8 +114,10 @@ class AdminController extends BaseController
                 'pubArtikel' => $pubArtikel,
                 'allKategori' => $allKategori,
                 'allGaleri' => $allGaleri,
+                'allDokumen' => $allDokumen,
                 'fullAccessUser' => $fullAccessUser,
                 'postOnlyUser' => $postOnlyUser,
+                'docOnlyUser' => $docOnlyUser,
                 'totalUser' => $totalUser
             ]);
         } else {
@@ -228,7 +235,7 @@ class AdminController extends BaseController
                             }
                         endif;
 
-                        $file->move(ROOTPATH . 'public/assets/artikel/img/' . $model->getInsertID() . '/', $newname);
+                        $file->move(FCPATH . 'assets/artikel/img/' . $model->getInsertID() . '/', $newname);
                         $var = ($this->request->getPost('SimpanBos') === 'SimpanBos') ? ' dan dipublikasikan' : ' dan disimpan ke draf';
                         return redirect()->route('admin.artikel')->with('message', [
                             'judul' => 'Artikel dibuat',
@@ -319,7 +326,7 @@ class AdminController extends BaseController
                     } else {
                         $artikelModel = new ArtikelModel();
                         $specificNameId = $artikelModel->find($id);
-                        $oldNamePath = ROOTPATH . '/public/assets/artikel/img/' . $id . '/' . $specificNameId['link_gambar'];
+                        $oldNamePath = FCPATH . 'assets/artikel/img/' . $id . '/' . $specificNameId['link_gambar'];
                         unlink($oldNamePath);
 
                         $newname = $file->getRandomName();
@@ -332,7 +339,7 @@ class AdminController extends BaseController
                             'link_gambar' => $newname
                         ]);
 
-                        $file->move(ROOTPATH . '/public/assets/artikel/img/' . $id . '/', $newname);
+                        $file->move(FCPATH . 'assets/artikel/img/' . $id . '/', $newname);
                         return redirect()->route('admin.artikel')->with('message', [
                             'judul' => 'Edit Artikel Sukses',
                             'msg' => 'Artikel berhasil untuk diedit dan gambar berhasil diupload',
@@ -351,7 +358,7 @@ class AdminController extends BaseController
         $session = session();
         if ($session->get('whoLoggedIn')) {
             $artikelModel = new ArtikelModel();
-            $deletedPath = ROOTPATH . '/public/assets/artikel/img/' . $id . '/';
+            $deletedPath = FCPATH . 'assets/artikel/img/' . $id . '/';
             // $file = $artikelModel->find($id);
             // $namafile = $file['link_gambar'];
             // unlink($deletedPath . $namafile);
@@ -428,7 +435,7 @@ class AdminController extends BaseController
                         ) {
                             // $this->response->setStatusCode(500, 'Error, didn\'t get the ID: ' . $id);
                             $filename = $file->getRandomName();
-                            $file->move(ROOTPATH . '/public/assets/artikel/img/' . $id . '/', $filename);
+                            $file->move(FCPATH . 'assets/artikel/img/' . $id . '/', $filename);
                             return json_encode([
                                 'location' => base_url("assets/artikel/img/" . $id . "/" . $filename),
                             ]);
@@ -445,7 +452,7 @@ class AdminController extends BaseController
                                 $file->getMimeType() == "image/jpeg")
                         ) {
                             $filename = $file->getRandomName();
-                            $file->move(ROOTPATH . '/public/assets/artikel/img/' . $id . '/', $filename);
+                            $file->move(FCPATH . 'assets/artikel/img/' . $id . '/', $filename);
                             return json_encode([
                                 'location' => base_url("assets/artikel/img/" . $id . "/" . $filename),
                             ]);

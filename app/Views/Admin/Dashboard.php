@@ -42,6 +42,14 @@
         </div>
         <div class="row mt-md-2">
             <div class="col-md-3 mb-3">
+                <div class="card text-white bg-success">
+                    <div class="card-body">
+                        <h3 class="card-title"><?= count($allDokumen); ?></h3>
+                        <p class="card-text">Total dokumen</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
                 <div class="card text-white bg-dark">
                     <div class="card-body">
                         <h3 class="card-title"><?= count($totalUser); ?></h3>
@@ -62,6 +70,16 @@
                     <div class="card-body">
                         <h3 class="card-title"><?= count($postOnlyUser); ?></h3>
                         <p class="card-text">User dengan role Hanya Posting</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-md-2">
+            <div class="col-md-3 mb-3">
+                <div class="card text-white bg-success">
+                    <div class="card-body">
+                        <h3 class="card-title"><?= count($docOnlyUser); ?></h3>
+                        <p class="card-text">User dengan role Hanya Dokumen</p>
                     </div>
                 </div>
             </div>

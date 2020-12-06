@@ -78,6 +78,11 @@ if (!env('isMaintenance')) {
 			$routes->post('delete', 'GaleriController::deleteGaleriProcess', ['as' => 'admin.galeri.delete.process']);
 		});
 		$routes->get('dashboard', 'AdminController::showDashboard', ['as' => 'admin.dashboard']);
+		$routes->group('dokumen', function ($routes) {
+			$routes->get('/', 'DokumenController::manageDokumen', ['as' => 'admin.dokumen.manage']);
+			$routes->post('add', 'DokumenController::addDokumenProcess', ['as' => 'admin.dokumen.add.process']);
+			$routes->post('delete', 'DokumenController::deleteDokumenProcess', ['as' => 'admin.dokumen.delete.process']);
+		});
 	});
 } else {
 	$routes->get('/', 'MaintenanceController::index');

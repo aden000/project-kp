@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Dec 01, 2020 at 08:24 AM
--- Server version: 10.5.6-MariaDB-log
--- PHP Version: 7.4.11
+-- Host: 127.0.0.1
+-- Generation Time: Dec 06, 2020 at 10:23 AM
+-- Server version: 10.4.6-MariaDB
+-- PHP Version: 7.3.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -39,6 +40,21 @@ CREATE TABLE `artikel` (
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
   `published_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dokumen`
+--
+
+CREATE TABLE `dokumen` (
+  `id_dokumen` int(11) NOT NULL,
+  `nama_dokumen` varchar(255) NOT NULL,
+  `file_dokumen` varchar(50) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `id_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -91,7 +107,7 @@ CREATE TABLE `user` (
   `nama_user` varchar(50) NOT NULL,
   `username` varchar(30) NOT NULL,
   `password` varchar(100) NOT NULL,
-  `role` int(11) NOT NULL COMMENT '0 - Role Full Access\r\n1 - Role Only Posting',
+  `role` int(11) NOT NULL COMMENT '0 - Role Full Access1 - Role Only Posting2 - Role Only Dokumen',
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
   `deleted_at` datetime DEFAULT NULL
@@ -109,6 +125,13 @@ ALTER TABLE `artikel`
   ADD UNIQUE KEY `slug` (`slug`),
   ADD KEY `FK_USER` (`id_user`),
   ADD KEY `FK_Kategori` (`id_kategori`);
+
+--
+-- Indexes for table `dokumen`
+--
+ALTER TABLE `dokumen`
+  ADD PRIMARY KEY (`id_dokumen`),
+  ADD KEY `fk_dokumen_ke_user` (`id_user`);
 
 --
 -- Indexes for table `galeri`
@@ -147,6 +170,12 @@ ALTER TABLE `artikel`
   MODIFY `id_artikel` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `dokumen`
+--
+ALTER TABLE `dokumen`
+  MODIFY `id_dokumen` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `galeri`
 --
 ALTER TABLE `galeri`
@@ -180,6 +209,12 @@ ALTER TABLE `user`
 ALTER TABLE `artikel`
   ADD CONSTRAINT `FK_Kategori` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`),
   ADD CONSTRAINT `FK_USER` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`);
+
+--
+-- Constraints for table `dokumen`
+--
+ALTER TABLE `dokumen`
+  ADD CONSTRAINT `fk_dokumen_ke_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `komentar`

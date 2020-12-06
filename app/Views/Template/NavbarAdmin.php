@@ -12,12 +12,19 @@ $a = $a->find(session()->get('whoLoggedIn'));  ?>
             <li class="nav-item <?= $uri->getSegment(2) == 'dashboard' ? 'active' : ''; ?>">
                 <a class="nav-link" href="<?= route_to('admin.dashboard'); ?>">Dashboard</a>
             </li>
+            <?php if ($a['role'] == 0 || $a['role'] == 1) : ?>
             <li class="nav-item <?= $uri->getSegment(2) == 'artikel' ? 'active' : ''; ?>">
                 <a class="nav-link" href="<?= route_to('admin.artikel'); ?>">Manage Artikel</a>
             </li>
             <li class="nav-item <?= $uri->getSegment(2) == 'kategori' ? 'active' : ''; ?>">
                 <a class="nav-link" href="<?= route_to('admin.kategori'); ?>">Manage Kategori</a>
             </li>
+            <?php endif; ?>
+            <?php if ($a['role'] == 0 || $a['role'] == 2) : ?>
+            <li class="nav-item <?= $uri->getSegment(2) == 'dokumen' ? 'active' : ''; ?>">
+                <a class="nav-link" href="<?= route_to('admin.dokumen.manage'); ?>">Manage Dokumen</a>
+            </li>
+            <?php endif; ?>
             <?php if ($a['role'] == 0) : ?>
                 <li class="nav-item <?= $uri->getSegment(2) == 'user' ? 'active' : ''; ?>">
                     <a class="nav-link" href="<?= route_to('admin.user.manage'); ?>">Manage User</a>

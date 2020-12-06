@@ -2,10 +2,10 @@
 
 namespace App\Controllers;
 
-use App\Models\GaleriModel;
+use App\Models\DokumenModel;
 use App\Models\UserModel;
 
-class GaleriController extends BaseController
+class DokumenController extends BaseController
 {
     private function isLoggedIn()
     {
@@ -19,15 +19,24 @@ class GaleriController extends BaseController
         return $model['role'] == 0 ? true : false;
     }
 
-    public function manageGaleri()
+    private function isRoleDokumen()
+    {
+        $model = new UserModel();
+        $model = $model->select('role')->where('id_user', session()->get('whoLoggedIn'))->first();
+        return $model['role'] == 2 ? true : false;
+    }
+
+    public function manageDokumen()
     {
         if ($this->isLoggedIn()) {
-            if ($this->isFullAccess()) {
-                $model = new GaleriModel();
-                $result = $model->findAll();
-                return view('Admin/ManageGaleri/Index', [
-                    'judul' => 'Kelola Galeri | DISPERTAPAHORBUN',
-                    'galeri' => $result
+            if ($this->isRoleDokumen() || $this->isFullAccess()) {
+                $model = new DokumenModel();
+                $result = $model->join('user', 'dokumen.id_user = user.id_user')
+                ->select('id_dokumen, nama_dokumen, file_dokumen, dokumen.created_at, nama_user')
+                ->findAll();
+                return view('Admin/ManageDokumen/Index', [
+                    'judul' => 'Kelola Dokumen | DISPERTAPAHORBUN',
+                    'dokumen' => $result
                 ]);
             } else {
                 return redirect()->route('admin.dashboard')->with('message', [
@@ -41,38 +50,41 @@ class GaleriController extends BaseController
         }
     }
 
-    public function addGaleriProcess()
+    public function addDokumenProcess()
     {
         if ($this->isLoggedIn()) {
-            if ($this->isFullAccess()) {
+            if ($this->isFullAccess() || $this->isRoleDokumen()) {
 
                 if (!$this->validate([
-                    'namaGambar' => 'uploaded[namaGambar]|max_size[namaGambar, 2048]'
+                    'namaDokumen' => 'required',
+                    'fileDokumen' => 'uploaded[fileDokumen]'
                 ])) {
-                    return redirect()->route('admin.galeri.manage')->with('message', [
+                    return redirect()->route('admin.dokumen.manage')->with('message', [
                         'judul' => 'Validasi Error',
                         'msg' => $this->validator->getError(),
                         'role' => 'error'
                     ]);
                 } else {
-                    $file = $this->request->getFile('namaGambar');
+                    $file = $this->request->getFile('fileDokumen');
                     if ($file->isValid()) {
                         $rname = $file->getRandomName();
-                        $gModel = new GaleriModel();
+                        $gModel = new DokumenModel();
                         $gModel->save([
-                            'nama_gambar' => $rname
+                            'nama_dokumen' => esc($this->request->getPost('namaDokumen')),
+                            'file_dokumen' => $rname,
+                            'id_user' => session()->get('whoLoggedIn')
                         ]);
 
-                        $file->move(FCPATH . 'assets/img/slide/', $rname);
-                        return redirect()->route('admin.galeri.manage')->with('message', [
-                            'judul' => 'Gambar Galeri ditambahkan',
-                            'msg' => 'Gambar berhasil diupload',
+                        $file->move(FCPATH . 'assets/dokumen', $rname);
+                        return redirect()->route('admin.dokumen.manage')->with('message', [
+                            'judul' => 'Dokumen ditambahkan',
+                            'msg' => 'Dokumen berhasil diupload',
                             'role' => 'success'
                         ]);
                     } else {
-                        return redirect()->route('admin.galeri.manage')->with('message', [
+                        return redirect()->route('admin.dokumen.manage')->with('message', [
                             'judul' => 'File tidak valid',
-                            'msg' => 'File tidak berupa gambar',
+                            'msg' => 'File tidak berupa dokumen',
                             'role' => 'error'
                         ]);
                     }
@@ -89,28 +101,28 @@ class GaleriController extends BaseController
         }
     }
 
-    public function deleteGaleriProcess()
+    public function deleteDokumenProcess()
     {
         if ($this->isLoggedIn()) {
-            if ($this->isFullAccess()) {
+            if ($this->isFullAccess() || $this->isRoleDokumen()) {
                 if ($this->validate([
                     'id' => 'numeric|required'
                 ])) {
                     $id = esc($this->request->getPost('id'));
-                    $GaleriModel = new GaleriModel();
-                    $result = $GaleriModel->find($id);
-                    $deletedFile = FCPATH . 'assets/img/slide/' . $result['nama_gambar'];
+                    $DokumenModel = new DokumenModel();
+                    $result = $DokumenModel->find($id);
+                    $deletedFile = FCPATH . 'assets/dokumen/' . $result['file_dokumen'];
 
                     unlink($deletedFile);
-                    $GaleriModel->delete($id);
+                    $DokumenModel->delete($id);
 
-                    return redirect()->route('admin.galeri.manage')->with('message', [
-                        'judul' => 'Gambar Galeri Dihapus',
-                        'msg' => 'Gambar berhasil dihapus dengan sukses',
+                    return redirect()->route('admin.dokumen.manage')->with('message', [
+                        'judul' => 'Dokumen Dihapus',
+                        'msg' => 'Dokumen berhasil dihapus dengan sukses',
                         'role' => 'success'
                     ]);
                 } else {
-                    return redirect()->route('admin.galeri.manage')->with('message', [
+                    return redirect()->route('admin.dokumen.manage')->with('message', [
                         'judul' => 'Validasi Error',
                         'msg' => "Terjadi kesalahan, harap reload ulang",
                         'role' => 'error'
