@@ -68,7 +68,7 @@ class UserController extends BaseController
                     'user' => $model->findAll()
                 ]);
             } else {
-                return redirect()->route('admin.artikel')->with('message', [
+                return redirect()->route('admin.dashboard')->with('message', [
                     'judul' => 'Akses dilarang',
                     'msg' => 'Anda tidak mempunyai akses ke alamat ini',
                     'role' => 'error'
@@ -110,7 +110,7 @@ class UserController extends BaseController
                     ]);
                 }
             } else {
-                return redirect()->route('admin.artikel')->with('message', [
+                return redirect()->route('admin.dashboard')->with('message', [
                     'judul' => 'Akses dilarang',
                     'msg' => 'Anda tidak mempunyai akses ke alamat ini',
                     'role' => 'error'
@@ -196,7 +196,7 @@ class UserController extends BaseController
                     ]);
                 }
             } else {
-                return redirect()->route('admin.artikel')->with('message', [
+                return redirect()->route('admin.dashboard')->with('message', [
                     'judul' => 'Akses dilarang',
                     'msg' => 'Anda tidak mempunyai akses ke alamat ini',
                     'role' => 'error'
@@ -227,7 +227,7 @@ class UserController extends BaseController
                     ]);
                 }
             } else {
-                return redirect()->route('admin.artikel')->with('message', [
+                return redirect()->route('admin.dashboard')->with('message', [
                     'judul' => 'Akses dilarang',
                     'msg' => 'Anda tidak mempunyai akses ke alamat ini',
                     'role' => 'error'
