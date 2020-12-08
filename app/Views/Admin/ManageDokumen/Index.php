@@ -16,6 +16,7 @@ if (session('message')) : ?>
                     <tr>
                         <th>Urutan ke-</th>
                         <th>Nama Dokumen</th>
+                        <th>Created At</th>
                         <th>Uploaded By</th>
                         <th>Aksi</th>
                     </tr>
@@ -27,6 +28,9 @@ if (session('message')) : ?>
                             <td scope="row" style="vertical-align: middle;"><?php echo $num++; ?></td>
                             <td style="vertical-align: middle;">
                                 <?= $g['nama_dokumen'] ?>
+                            </td>
+                            <td style="vertical-align: middle;">
+                                <?= $g['created_at'] ?>
                             </td>
                             <td style="vertical-align: middle;">
                             <?= $g['nama_user'] ?>

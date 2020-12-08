@@ -20,6 +20,7 @@
                     <tr>
                         <th>#</th>
                         <th>Nama Dokumen</th>
+                        <th>Uploaded At</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -30,6 +31,9 @@
                             <td scope="row" style="vertical-align: middle;"><?php echo $num++; ?></td>
                             <td style="vertical-align: middle;">
                                 <?= $g['nama_dokumen'] ?>
+                            </td>
+                            <td style="vertical-align: middle;">
+                                <?= $g['created_at'] ?>
                             </td>
                             <td style="vertical-align: middle;">
                                 <span class="my-auto">
