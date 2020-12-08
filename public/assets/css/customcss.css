@@ -8,6 +8,10 @@ body {
     min-height: 100vh;
 }
 
+.table-color {
+    background-color: white;
+}
+
 .footer-area {
     background-color: rgb(14, 9, 56);
     color: white;

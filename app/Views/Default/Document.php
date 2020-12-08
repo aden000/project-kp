@@ -12,7 +12,7 @@
             <h4>Dokumen Website</h4>
         </div>
     </div>
-    <div class="col-10 shadow-sm border border-dark dokumen">
+    <div class="col-10 shadow-sm border border-dark dokumen table-color">
         <h4>Dokumen</h4>
         <div class="table-responsive">
             <table class="table table-hover table-sm" id="tabelArtikel">
