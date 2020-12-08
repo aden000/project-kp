@@ -34,6 +34,7 @@ $routes->setAutoRoute(false);
 if (!env('isMaintenance')) {
 	$routes->get('/', 'DefaultController::index', ['as' => 'home']);
 	$routes->get('about', 'DefaultController::about', ['as' => 'about']);
+	$routes->get('document', 'DefaultController::document', ['as' => 'document']);
 	$routes->get('artikel/(:segment)', 'DefaultController::artikel/$1', ['as' => 'detail.artikel']);
 	$routes->post('artikel', "DefaultController::handleCommentCreate", ['as' => 'handle.comment']);
 	//$routes->get('debug/(:segment)', "AdminController::getEncrypted/$1");

@@ -6,6 +6,7 @@ use App\Models\ArtikelModel;
 use App\Models\GaleriModel;
 use App\Models\KomentarModel;
 use App\Models\UserModel;
+use App\Models\DokumenModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use Config\Database;
 
@@ -76,6 +77,19 @@ class DefaultController extends BaseController
             'a' => $a
         ];
         return view('Default/About', $data);
+    }
+
+    public function document(){
+        $a = new UserModel();
+        $doc = new DokumenModel();
+        $doc = $doc->FindAll();
+        if (session()->get('whoLoggedIn')) $a = $a->find(session()->get('whoLoggedIn'));
+        $data = [
+            'judul' => 'Document | DISPERTAPAHORBUN',
+            'a' => $a,
+            'doc' => $doc
+        ];
+        return view('Default/Document', $data);
     }
 
     public function artikel($slug = null)

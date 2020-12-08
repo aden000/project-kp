@@ -7,6 +7,9 @@
             <li class="nav-item <?= $uri->getSegment(1) == '' ? 'active' : ''; ?>">
                 <a class="nav-link" href="<?= route_to('home'); ?>">Home</a>
             </li>
+            <li class="nav-item <?= $uri->getSegment(1) == 'document' ? 'active' : ''; ?>">
+                <a class="nav-link" href="<?= route_to('document'); ?>">Dokumen</a>
+            </li>
             <li class="nav-item <?= $uri->getSegment(1) == 'about' ? 'active' : ''; ?>">
                 <a class="nav-link" href="<?= route_to('about'); ?>">Tentang</a>
             </li>

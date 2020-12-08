@@ -125,6 +125,13 @@ body {
     right: 16px;
 }
 
+.dokumen {
+    margin-left: 8%;
+    margin-right: 8%;
+    margin-bottom: 8%;
+    padding: 15px;
+}
+
 /* .hreflink-red a i {
     width: auto;
     height: auto;
