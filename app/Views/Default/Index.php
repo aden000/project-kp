@@ -20,7 +20,7 @@ use CodeIgniter\I18n\Time; ?>
                     <?php $no = 1;
                     foreach ($galeri as $g) : ?>
                         <div class="carousel-item imgcontainer <?= $no == 1 ? "active" : ""; ?>">
-                            <img class="darker d-block w-100" src="<?= base_url('assets/img/slide') . '/' . $g['nama_gambar']; ?>" alt="slide <?= $no; ?>">
+                            <img class="img-fluid w-100" src="<?= base_url('assets/img/slide') . '/' . $g['nama_gambar']; ?>" alt="slide <?= $no; ?>">
                             <div class="centered">
                                 <h2 style="font-size: 4vmin;"><?= $greetings; ?></h2>
                             </div>
@@ -107,7 +107,7 @@ use CodeIgniter\I18n\Time; ?>
                     <div class="row mb-2">
                         <div class="card">
                             <div class="row card-body">
-                                <img class="col-sm-3 mb-2 thumbimage" src="<?= base_url('assets/artikel/img/' . $a['id_artikel'] . '/' . $a['link_gambar']); ?>" alt="<?= $a['slug']; ?>" />
+                                <img class="col-sm-3 mb-2 thumbimage w-100" src="<?= base_url('assets/artikel/img/' . $a['id_artikel'] . '/' . $a['link_gambar']); ?>" alt="<?= $a['slug']; ?>" />
                                 <div class="col-sm-9">
                                     <h5 class="card-title"><?= $a['judul_artikel']; ?></h5>
                                     <p class="card-text section-heading">

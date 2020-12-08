@@ -74,6 +74,9 @@ body {
 
 .thumbimage {
     object-fit: cover;
+    height: 150px;
+    width: 150px;
+    filter: brightness(60%);
     position: relative;
 }
 
@@ -106,15 +109,18 @@ body {
     transform: translate(-50%, -50%);
 }
 
-.darker {
-    filter: brightness(60%);
-}
-
 .imgcontainer {
     position: relative;
     text-align: center;
     color: white;
     margin-top: 15pt;
+}
+
+.imgcontainer img {
+    object-fit: cover;
+    max-height: 500px;
+    width: 1600px;
+    filter: brightness(60%);
 }
 
 .top-left {

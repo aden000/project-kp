@@ -46,6 +46,13 @@
             media_live_embeds: true,
             height: "500",
             theme: 'silver',
+            relative_urls : false,
+            document_base_url : "<?= base_url() ?>/",
+            convert_urls : true,
+            image_dimensions: false,
+                image_class_list: [
+                    {title: 'Responsive', value: 'img-fluid'}
+                ],
             setup: function(editor) {
                 editor.on('keydown', function(e) {
                     var wordcount = editor.plugins.wordcount;

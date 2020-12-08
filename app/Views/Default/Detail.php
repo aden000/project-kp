@@ -13,7 +13,7 @@ use CodeIgniter\I18n\Time; ?>
     <div class="row  mt-lg-3">
         <div class="col-lg-9" style="background-color: #fff;">
             <div class="imgcontainer">
-                <img class="darker img-fluid" src="<?php echo base_url('assets/artikel/img/' . $detail['id_artikel'] . '/' . $detail['link_gambar']); ?>" alt="Snow">
+                <img class="img-fluid w-100" src="<?php echo base_url('assets/artikel/img/' . $detail['id_artikel'] . '/' . $detail['link_gambar']); ?>" alt="Snow">
                 <div class="top-left">
                     <a href="<?= route_to('home'); ?>" title="Kembali ke Home" class="btn btn-light"><i class="fa fa-home"></i></a>
                 </div>

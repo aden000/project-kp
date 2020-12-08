@@ -14,7 +14,7 @@ use CodeIgniter\I18n\Time; ?>
         </div>
     </div> -->
     <div class="card row m-lg-2 p-2 mb-2">
-        <img class="card-img-top" src="<?= base_url('assets/artikel/img/' . $r['id_artikel'] . '/' . $r['link_gambar']); ?>" alt="Card image cap">
+        <img class="card-img-top img-fluid w-100 thumbimage" src="<?= base_url('assets/artikel/img/' . $r['id_artikel'] . '/' . $r['link_gambar']); ?>" alt="Card image cap">
         <div class="card-body section-heading">
             <h5 class="card-title"><?= $r['judul_artikel']; ?></h5>
             <cite><small><?= Time::parse($r['created_at'])->toLocalizedString('d MMMM yyyy'); ?> | Kategori: <?= $r['nama_kategori']; ?> | By: <?= $r['nama_user']; ?></small></cite>

@@ -437,7 +437,7 @@ class AdminController extends BaseController
                             $filename = $file->getRandomName();
                             $file->move(FCPATH . 'assets/artikel/img/' . $id . '/', $filename);
                             return json_encode([
-                                'location' => base_url("assets/artikel/img/" . $id . "/" . $filename),
+                                'location' => "/assets/artikel/img/" . $id . "/" . $filename,
                             ]);
                         } else {
                             $this->response->setStatusCode(403, 'Not valid file or mime type');
@@ -454,7 +454,7 @@ class AdminController extends BaseController
                             $filename = $file->getRandomName();
                             $file->move(FCPATH . 'assets/artikel/img/' . $id . '/', $filename);
                             return json_encode([
-                                'location' => base_url("assets/artikel/img/" . $id . "/" . $filename),
+                                'location' => "/assets/artikel/img/" . $id . "/" . $filename,
                             ]);
                         } else {
                             $this->response->setStatusCode(403, 'Not valid file or mime type');
