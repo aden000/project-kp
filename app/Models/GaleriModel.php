@@ -12,6 +12,7 @@ class GaleriModel extends Model
     protected $primaryKey = "id_galeri";
     protected $returnType = "array";
     protected $allowedFields = [
+        "id_user",
         "nama_gambar",
     ];
 }

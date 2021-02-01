@@ -24,7 +24,10 @@ class GaleriController extends BaseController
         if ($this->isLoggedIn()) {
             if ($this->isFullAccess()) {
                 $model = new GaleriModel();
-                $result = $model->findAll();
+                $result = $model->join('user', 'galeri.id_user = user.id_user', 'left')
+                    ->select('nama_user, id_galeri, nama_gambar')
+                    ->orderBy('id_galeri', 'ASC')
+                    ->findAll();
                 return view('Admin/ManageGaleri/Index', [
                     'judul' => 'Kelola Galeri | DISPERTAPAHORBUN',
                     'galeri' => $result
@@ -60,6 +63,7 @@ class GaleriController extends BaseController
                         $rname = $file->getRandomName();
                         $gModel = new GaleriModel();
                         $gModel->save([
+                            'id_user' => session()->get('whoLoggedIn'),
                             'nama_gambar' => $rname
                         ]);
 

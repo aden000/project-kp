@@ -15,6 +15,7 @@ if (session('message')) : ?>
                 <thead>
                     <tr>
                         <th>Urutan ke-</th>
+                        <th>Yang mengupload</th>
                         <th>Preview Gambar</th>
                         <th>Aksi</th>
                     </tr>
@@ -24,6 +25,9 @@ if (session('message')) : ?>
                     foreach ($galeri as $g) : ?>
                         <tr>
                             <td scope="row" style="vertical-align: middle;"><?php echo $num++; ?></td>
+                            <td style="vertical-align: middle;">
+                                <?= $g['nama_user']; ?>
+                            </td>
                             <td style="vertical-align: middle;">
                                 <a target="_blank" href="<?= base_url('assets/img/slide/' . $g['nama_gambar']); ?>">
                                     <img src="<?php echo base_url('assets/img/slide/' . $g['nama_gambar']); ?>" style="width:100px; height:50px;" alt="Gambar<?= $g['id_galeri'] ?>" class="img img-thumbnail">
